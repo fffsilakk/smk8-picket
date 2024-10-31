@@ -1,66 +1,62 @@
-//import vue router
 import { createRouter, createWebHistory } from "vue-router";
 
-//define a routes
 const routes = [
   {
     path: "/",
     name: "home",
-    component: () =>
-      import(/* webpackChunkName: "home" */ "../views/home/index.vue"),
+    component: () => import("../views/home/index.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/Login",
+    name: "Login",
+    component: () => import("../views/auth/Login.vue"),
   },
   {
     path: "/Daftar-guru",
     name: "Daftar-guru",
-    component: () =>
-      import(
-        /* webpackChunkName: "index" */ "../views/guru/daftarHadirGuru.vue"
-      ),
+    component: () => import("../views/guru/daftarHadirGuru.vue"),
   },
   {
     path: "/Picket-guru",
     name: "Picket-guru",
-    component: () =>
-      import(
-        /* webpackChunkName: "index" */ "../views/guru/jadwalPicketGuru.vue"
-      ),
+    component: () => import("../views/guru/jadwalPicketGuru.vue"),
   },
   {
     path: "/Guru",
     name: "Guru",
-    component: () =>
-      import(/* webpackChunkName: "index" */ "../views/guru/guru.vue"),
+    component: () => import("../views/guru/guru.vue"),
   },
   {
     path: "/Siswa",
     name: "Siswa",
-    component: () =>
-      import(/* webpackChunkName: "index" */ "../views/siswa/siswa.vue"),
+    component: () => import("../views/siswa/siswa.vue"),
   },
   {
     path: "/History",
     name: "History",
-    component: () =>
-      import(/* webpackChunkName: "index" */ "../views/history/history.vue"),
-  },
-  {
-    path: "/register",
-    name: "register",
-    component: () =>
-      import(/* webpackChunkName: "index" */ "../views/auth/register.vue"),
+    component: () => import("../views/history/history.vue"),
   },
   {
     path: "/login",
     name: "login",
-    component: () =>
-      import(/* webpackChunkName: "create" */ "../views/auth/login.vue"),
+    component: () => import("../views/auth/Login.vue"),
   },
 ];
 
-//create router
 const router = createRouter({
   history: createWebHistory(),
-  routes, // <-- routes,
+  routes,
+});
+
+router.beforeEach(async (to) => {
+  const publicPages = ["/login"];
+  const authRequired = !publicPages.includes(to.path);
+  // const auth = useAuthStore();
+  const token = localStorage.getItem("authToken");
+  if (!token && authRequired) {
+    return "/login";
+  }
 });
 
 export default router;
