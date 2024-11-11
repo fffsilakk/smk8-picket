@@ -128,7 +128,7 @@ onMounted(getData);
             :key="index"
             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
           >
-            <td class="px-6 py-4">{{ schoolYear.id }}</td>
+            <td class="px-6 py-4">{{ index + 1 }}</td>
             <td class="px-6 py-4">{{ schoolYear.name }}</td>
             <td class="px-6 py-4">{{ schoolYear.year }}</td>
             <td class="px-6 py-4">

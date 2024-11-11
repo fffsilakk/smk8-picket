@@ -48,6 +48,8 @@
 
 <script>
 import axios from "axios";
+import { onMounted, toRaw } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
   props: ["id"],
@@ -69,6 +71,9 @@ export default {
       },
     },
   },
+  mounted() {
+    this.fetchSchoolyear();
+  },
   methods: {
     async fetchSchoolyear() {
       const token = localStorage.getItem("authToken"); // Ambil token dari localStorage
@@ -78,7 +83,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          `https://picket.ocph23.tech/api/schoolyear/${this.id}`,
+          `https://picket.ocph23.tech/api/schoolyear/${this.$route.params.id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -99,18 +104,12 @@ export default {
         alert("Token tidak ditemukan. Pastikan Anda sudah login.");
         return;
       }
-      if (!this.id) {
-        alert("ID tahun ajaran tidak ditemukan.");
-
-        return {
-          id: this.$route.params.id, // Mengambil id dari parameter URL
-          schoolyear: {}, // Data tahun ajaran
-        };
-      }
       try {
+        let data = toRaw(this.schoolyear);
+        console.log(data);
         const response = await axios.put(
-          `https://picket.ocph23.tech/api/schoolyear/${this.id}`,
-          this.schoolyear,
+          `https://picket.ocph23.tech/api/schoolyear/${this.$route.params.id}`,
+          data,
           {
             headers: {
               "Content-Type": "application/json",
