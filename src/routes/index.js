@@ -18,11 +18,6 @@ const routes = [
     component: () => import("../views/guru/daftarHadirGuru.vue"),
   },
   {
-    path: "/Picket-guru",
-    name: "Picket-guru",
-    component: () => import("../views/guru/jadwalPicketGuru.vue"),
-  },
-  {
     path: "/Guru",
     name: "Guru",
     component: () => import("../views/guru/guru.vue"),
@@ -33,6 +28,12 @@ const routes = [
     component: () => import("../views/siswa/siswa.vue"),
   },
   {
+    path: "/Tahun-ajaran",
+    name: "Tahun-ajaran",
+    component: () => import("../views/shcoolyear/tahunAjaran.vue"),
+  },
+
+  {
     path: "/History",
     name: "History",
     component: () => import("../views/history/history.vue"),
@@ -41,6 +42,26 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import("../views/auth/Login.vue"),
+  },
+
+  // routes tahun ajaran
+  {
+    path: "/Tahun-ajaran/add",
+    name: "addShoolyear",
+    component: () => import("../views/shcoolyear/addTahunAjaran.vue"),
+  },
+  {
+    path: "/Tahun-ajaran/:id/edit",
+    name: "editSchoolyear",
+    component: () => import("../views/shcoolyear/editTahunAjaran.vue"),
+    // beforeEnter: (to, from, next) => {
+    //     const token = localStorage.getItem('auth_token');
+    //     if (token) {
+    //       next(); // Jika token ada, lanjutkan ke halaman
+    //     } else {
+    //       next('/login'); // Jika token tidak ada, arahkan ke halaman login
+    //     }
+    //   }
   },
 ];
 
@@ -52,7 +73,6 @@ const router = createRouter({
 router.beforeEach(async (to) => {
   const publicPages = ["/login"];
   const authRequired = !publicPages.includes(to.path);
-  // const auth = useAuthStore();
   const token = localStorage.getItem("authToken");
   if (!token && authRequired) {
     return "/login";

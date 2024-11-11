@@ -21,7 +21,8 @@ const login = async () => {
 
     const token = response.data;
     console.log(token);
-    localStorage.setItem("authToken", token);
+    console.log(token);
+    localStorage.setItem("authToken", JSON.stringify(token));
 
     router.push("/");
   } catch (error) {
