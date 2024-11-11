@@ -1,90 +1,3 @@
-<script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
-
-const schoolYears = ref([]);
-const form = ref({ name: "", year: "", active: true });
-
-const auth = JSON.parse(localStorage.getItem("authToken"));
-const authToken = "bearer " + auth.token;
-
-// Fungsi untuk mengambil data (GET)
-const getData = async () => {
-  try {
-    const response = await axios.get(
-      "https://picket.ocph23.tech/api/schoolyear",
-      {
-        headers: {
-          Authorization: authToken,
-        },
-      }
-    );
-    schoolYears.value = response.data;
-  } catch (error) {
-    console.error("Error fetching data:", error.message);
-  }
-};
-
-// Fungsi untuk menambah data (POST)
-const addData = async () => {
-  try {
-    const response = await axios.post(
-      "https://picket.ocph23.tech/api/schoolyear",
-      form.value,
-      {
-        headers: {
-          Authorization: authToken,
-        },
-      }
-    );
-    schoolYears.value.push(response.data);
-    this.$router.push("/Tahun-ajaran");
-    resetForm();
-  } catch (error) {
-    console.error("Error adding data:", error);
-  }
-};
-
-// Fungsi untuk memperbarui data (PUT)
-const updateData = async (id) => {
-  try {
-    await axios.put(
-      `https://picket.ocph23.tech/api/schoolyear/${id}`,
-      form.value,
-      {
-        headers: {
-          Authorization: authToken,
-        },
-      }
-    );
-    getData();
-    resetForm();
-  } catch (error) {
-    console.error("Error updating data:", error);
-  }
-};
-
-// Fungsi untuk menghapus data (DELETE)
-const deleteData = async (id) => {
-  try {
-    await axios.delete(`https://picket.ocph23.tech/api/schoolyear/${id}`, {
-      headers: {
-        Authorization: authToken,
-      },
-    });
-    getData();
-  } catch (error) {
-    console.error("Error deleting data:", error);
-  }
-};
-
-const resetForm = () => {
-  form.value = { name: "", year: "", active: true }; // Hapus ID dari form
-};
-
-onMounted(getData);
-</script>
-
 <template>
   <div class="p-6 md:px-10 sm:px-6 px-4 md:ml-64 sm:ml-64 ml-20 flex flex-col">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-28">
@@ -117,8 +30,8 @@ onMounted(getData);
           <tr>
             <th scope="col" class="px-6 py-3">Id</th>
             <th scope="col" class="px-6 py-3">Nama</th>
-            <th scope="col" class="px-6 py-3">Tahun</th>
-            <th scope="col" class="px-6 py-3">Actived</th>
+            <th scope="col" class="px-6 py-3">Initial</th>
+            <th scope="col" class="px-6 py-3">Description</th>
             <th scope="col" class="px-6 py-3">Action</th>
           </tr>
         </thead>

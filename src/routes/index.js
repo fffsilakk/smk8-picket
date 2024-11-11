@@ -63,6 +63,13 @@ const routes = [
     //     }
     //   }
   },
+
+  // Jurusan
+  {
+    path: "/Jurusan",
+    name: "Jurusan",
+    component: () => import("../views/jurusan/jurusan.vue"),
+  },
 ];
 
 const router = createRouter({
