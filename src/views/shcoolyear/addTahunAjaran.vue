@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="addData" class="max-w-sm mx-auto pt-10">
+  <form @submit.prevent="addData" class="mt-10 max-w-sm mx-auto pt-10">
     <!-- ID dihapus, ID akan otomatis di-generate oleh server -->
 
     <div class="mb-5">
@@ -69,7 +69,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiYWVlYzAyLWVkZjAtNGMyZS1hODMwLTRmZjFmYzgyNDllOSIsIm5hbWUiOiJhZG1pbkBnbWFpbC5jb20iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImp0aSI6Ijg4ODU0ZjNjLTJlODAtNDI4NS1hOTVkLTI4YmU5MmU3YWM2NCIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTczMDcwOTk1NSwiZXhwIjoxNzMxMzE0NzU1LCJpYXQiOjE3MzA3MDk5NTUsImlzcyI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyIsImF1ZCI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyJ9.yjrXwb2IoRIKpoGq1KaWbFgIBC0A_9dgIpdLfIGgELHutsW11NPmcCWGu2YJ8lVk407ipYZsr30vLbH2qbS2Sw"}`, // Ganti dengan token yang sesuai
+              Authorization: `Bearer ${"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmZmRiMDY2LWY1MmQtNGE3Ny05YTgxLWVjNzk1NjFhOTFjMCIsIm5hbWUiOiJhZG1pbkBwaWNrZXQub2NwaDIzLnRlY2giLCJzdWIiOiJhZG1pbkBwaWNrZXQub2NwaDIzLnRlY2giLCJlbWFpbCI6ImFkbWluQHBpY2tldC5vY3BoMjMudGVjaCIsImp0aSI6IjdlOGY2MzhkLTk3MDktNDc4NC04Yjk1LWQ2OWVmN2VkMWQ1NSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTczMTQ2MzY0NywiZXhwIjoxNzMyMDY4NDQ3LCJpYXQiOjE3MzE0NjM2NDcsImlzcyI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyIsImF1ZCI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyJ9.2V9vfNOnw03E1zSH2shzpsPkjP44ELPHMQfyAP50EmMcSEkFP3Del20Xsn2qbBD7XA0a-t2_axQdy5SN5vrJIA"}`, // Ganti dengan token yang sesuai
             },
           }
         );
