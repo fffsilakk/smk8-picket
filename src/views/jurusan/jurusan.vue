@@ -128,7 +128,7 @@ onMounted(getData);
             <td class="px-6 py-4">{{ department.initial }}</td>
             <td class="px-6 py-4">{{ department.description }}</td>
             <td class="px-6 py-4 flex gap-2">
-              <router-link :to="`/Tahun-ajaran/${department.id}/edit`">
+              <router-link :to="`/Jurusan/${department.id}/edit`">
                 <button
                   @click="form.value = { ...department }"
                   class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"

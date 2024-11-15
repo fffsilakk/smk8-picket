@@ -13,16 +13,6 @@ const routes = [
     component: () => import("../views/auth/Login.vue"),
   },
   {
-    path: "/Guru",
-    name: "Guru",
-    component: () => import("../views/guru/guru.vue"),
-  },
-  {
-    path: "/Siswa",
-    name: "Siswa",
-    component: () => import("../views/siswa/siswa.vue"),
-  },
-  {
     path: "/Tahun-ajaran",
     name: "Tahun-ajaran",
     component: () => import("../views/shcoolyear/tahunAjaran.vue"),
@@ -59,7 +49,7 @@ const routes = [
     //   }
   },
 
-  // Jurusan
+  //routes Jurusan
   {
     path: "/Jurusan",
     name: "Jurusan",
@@ -69,6 +59,44 @@ const routes = [
     path: "/Jurusan/add",
     name: "addJurusan",
     component: () => import("../views/jurusan/addJurusan.vue"),
+  },
+  {
+    path: "/Jurusan/:id/edit",
+    name: "editJurusan",
+    component: () => import("../views/jurusan/editJurusan.vue"),
+  },
+
+  // routes student
+  {
+    path: "/Siswa",
+    name: "Siswa",
+    component: () => import("../views/student/siswa.vue"),
+  },
+  {
+    path: "/Siswa/add",
+    name: "addSiswa",
+    component: () => import("../views/student/addSiswa.vue"),
+  },
+  {
+    path: "/Siswa/:id/edit",
+    name: "editSiswa",
+    component: () => import("../views/student/editSiswa.vue"),
+  },
+  // routes Teacher
+  {
+    path: "/Guru",
+    name: "Guru",
+    component: () => import("../views/teacher/guru.vue"),
+  },
+  {
+    path: "/Guru/add",
+    name: "addGuru",
+    component: () => import("../views/teacher/addGuru.vue"),
+  },
+  {
+    path: "/Guru/:id/edit",
+    name: "editGuru",
+    component: () => import("../views/teacher/editGuru.vue"),
   },
 ];
 
