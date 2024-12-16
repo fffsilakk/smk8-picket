@@ -1,6 +1,6 @@
 <template>
-  <form @submit.prevent="updateSchoolyear" class="max-w-sm mx-auto pt-12">
-    <!-- Tahun Input -->
+  <form @submit.prevent="updateData" class="mt-10 max-w-sm mx-auto pt-10">
+    <!-- Input Tahun -->
     <div class="mb-5">
       <label
         for="yearpicker"
@@ -8,19 +8,34 @@
         >Year</label
       >
       <input
+        v-model="formData.year"
         id="yearpicker"
         type="number"
-        v-model="schoolyear.year"
         min="1900"
         max="2100"
         step="1"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        placeholder="Masukan Tahun"
+        placeholder="Masukkan Tahun"
         required
       />
     </div>
 
-    <!-- Active Status -->
+    <!-- Input Semester -->
+    <div class="mb-5">
+      <label for="semester" class="block text-gray-700">Semester</label>
+      <input
+        id="semester"
+        v-model.number="formData.semester"
+        type="number"
+        min="1"
+        max="2"
+        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        placeholder="Masukkan Semester (1 atau 2)"
+        required
+      />
+    </div>
+
+    <!-- Status Aktif -->
     <div class="mb-5">
       <label
         for="active"
@@ -28,18 +43,20 @@
         >Active</label
       >
       <select
+        v-model="formData.active"
         id="active"
-        v-model="schoolyear.active"
         class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
         required
       >
-        <option :value="true">True</option>
-        <option :value="false">False</option>
+        <option value="true">True</option>
+        <option value="false">False</option>
       </select>
     </div>
+
+    <!-- Tombol Update -->
     <button
       type="submit"
-      class="flex justify-center items-center m-auto w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      class="flex justify-center items-center m-auto w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
     >
       Update
     </button>
@@ -48,82 +65,69 @@
 
 <script>
 import axios from "axios";
-import { onMounted, toRaw } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 export default {
-  props: ["id"],
   data() {
     return {
-      schoolyear: {
-        year: "",
-        active: false,
+      formData: {
+        year: null,
+        semester: null,
+        active: true,
       },
     };
   },
-  watch: {
-    id: {
-      immediate: true,
-      handler(newId) {
-        if (newId) {
-          this.fetchSchoolyear();
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
+    return { route, router };
+  },
+  methods: {
+    async fetchData() {
+      try {
+        const token = `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmZmRiMDY2LWY1MmQtNGE3Ny05YTgxLWVjNzk1NjFhOTFjMCIsIm5hbWUiOiJhZG1pbkBwaWNrZXQub2NwaDIzLnRlY2giLCJzdWIiOiJhZG1pbkBwaWNrZXQub2NwaDIzLnRlY2giLCJlbWFpbCI6ImFkbWluQHBpY2tldC5vY3BoMjMudGVjaCIsImp0aSI6ImJlM2VlMTY3LWZhNTAtNDljZi1iY2M0LTg2NDZiZjdjOWIwMyIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTczMjk0NTMxNiwiZXhwIjoxNzMzNTUwMTE2LCJpYXQiOjE3MzI5NDUzMTYsImlzcyI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyIsImF1ZCI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyJ9.02z3z6HXHNM1NwItAcPAsua7pWBTNY5AvUsDGRLXUEQK2nMkTeg-RGddSJ-zTI0jC1I6stdlMCk5pj3yPoTk7Q`; // Ganti dengan token yang benar
+        const id = this.route.params.id;
+        const response = await axios.get(
+          `https://picket.ocph23.tech/api/schoolyear/${id}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+
+        this.formData = response.data;
+      } catch (error) {
+        console.error("Gagal mengambil data:", error);
+      }
+    },
+    async updateData() {
+      try {
+        const token = `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmZmRiMDY2LWY1MmQtNGE3Ny05YTgxLWVjNzk1NjFhOTFjMCIsIm5hbWUiOiJhZG1pbkBwaWNrZXQub2NwaDIzLnRlY2giLCJzdWIiOiJhZG1pbkBwaWNrZXQub2NwaDIzLnRlY2giLCJlbWFpbCI6ImFkbWluQHBpY2tldC5vY3BoMjMudGVjaCIsImp0aSI6ImJlM2VlMTY3LWZhNTAtNDljZi1iY2M0LTg2NDZiZjdjOWIwMyIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTczMjk0NTMxNiwiZXhwIjoxNzMzNTUwMTE2LCJpYXQiOjE3MzI5NDUzMTYsImlzcyI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyIsImF1ZCI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyJ9.02z3z6HXHNM1NwItAcPAsua7pWBTNY5AvUsDGRLXUEQK2nMkTeg-RGddSJ-zTI0jC1I6stdlMCk5pj3yPoTk7Q`; // Ganti dengan token yang benar
+        const id = this.route.params.id;
+        await axios.put(
+          `https://picket.ocph23.tech/api/schoolyear/${id}`,
+          this.formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+          }
+        );
+
+        console.log("Data berhasil diupdate");
+        this.$router.push({ path: "/Tahun-ajaran" });
+      } catch (error) {
+        console.error("Gagal mengupdate data:", error);
+        if (error.response) {
+          console.error("Detail error:", error.response.data);
         }
-      },
+      }
     },
   },
   mounted() {
-    this.fetchSchoolyear();
-  },
-  methods: {
-    async fetchSchoolyear() {
-      const token = localStorage.getItem("authToken"); // Ambil token dari localStorage
-      if (!token) {
-        alert("Token tidak ditemukan. Pastikan Anda sudah login.");
-        return;
-      }
-      try {
-        const response = await axios.get(
-          `https://picket.ocph23.tech/api/schoolyear/${this.$route.params.id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiYWVlYzAyLWVkZjAtNGMyZS1hODMwLTRmZjFmYzgyNDllOSIsIm5hbWUiOiJhZG1pbkBnbWFpbC5jb20iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImp0aSI6IjhkYzQ3MWU5LWEzOTItNGYxNi04M2E1LWY2NDc2ZmFlZDMwZSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTczMTE0MDAzMiwiZXhwIjoxNzMxNzQ0ODMyLCJpYXQiOjE3MzExNDAwMzIsImlzcyI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyIsImF1ZCI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyJ9._IUaCNvlyqUTtdYetdRyy-erIq7axMy3ZbSfn_VNoTZjFw9wWa-qfXI3jWmYgbqVOqaP_tCd63mtamzwd1SVMQ"}`,
-            },
-          }
-        );
-        this.schoolyear = response.data;
-      } catch (error) {
-        console.error("Error fetching schoolyear data:", error);
-        alert("Gagal mengambil data tahun ajaran.");
-      }
-    },
-    async updateSchoolyear() {
-      const token = localStorage.getItem("authToken");
-      console.log("ID Tahun Ajaran:", this.id);
-      if (!token) {
-        alert("Token tidak ditemukan. Pastikan Anda sudah login.");
-        return;
-      }
-      try {
-        let data = toRaw(this.schoolyear);
-        console.log(data);
-        const response = await axios.put(
-          `https://picket.ocph23.tech/api/schoolyear/${this.$route.params.id}`,
-          data,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiYWVlYzAyLWVkZjAtNGMyZS1hODMwLTRmZjFmYzgyNDllOSIsIm5hbWUiOiJhZG1pbkBnbWFpbC5jb20iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImp0aSI6IjhkYzQ3MWU5LWEzOTItNGYxNi04M2E1LWY2NDc2ZmFlZDMwZSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTczMTE0MDAzMiwiZXhwIjoxNzMxNzQ0ODMyLCJpYXQiOjE3MzExNDAwMzIsImlzcyI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyIsImF1ZCI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyJ9._IUaCNvlyqUTtdYetdRyy-erIq7axMy3ZbSfn_VNoTZjFw9wWa-qfXI3jWmYgbqVOqaP_tCd63mtamzwd1SVMQ"}`,
-            },
-          }
-        );
-        alert("Data tahun ajaran berhasil diperbarui!");
-        this.$router.push({ path: "/Tahun-ajaran" });
-      } catch (error) {
-        console.error("Error updating schoolyear:", error);
-        alert("Gagal memperbarui data tahun ajaran.");
-      }
-    },
+    this.fetchData();
   },
 };
 </script>

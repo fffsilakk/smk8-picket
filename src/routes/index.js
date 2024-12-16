@@ -17,7 +17,6 @@ const routes = [
     name: "Tahun-ajaran",
     component: () => import("../views/shcoolyear/tahunAjaran.vue"),
   },
-
   {
     path: "/History",
     name: "History",
@@ -49,7 +48,7 @@ const routes = [
     //   }
   },
 
-  //routes Jurusan
+  //routes Departmen
   {
     path: "/Jurusan",
     name: "Jurusan",
@@ -82,6 +81,7 @@ const routes = [
     name: "editSiswa",
     component: () => import("../views/student/editSiswa.vue"),
   },
+
   // routes Teacher
   {
     path: "/Guru",
@@ -98,6 +98,58 @@ const routes = [
     name: "editGuru",
     component: () => import("../views/teacher/editGuru.vue"),
   },
+
+  // routes schedule
+  {
+    path: "/Jadwal/:id",
+    name: "Jadwal",
+    component: () => import("../views/schedule/jadwal.vue"),
+  },
+
+  // {
+  //   path: "/Guru/:id/edit",
+  //   name: "editGuru",
+  //   component: () => import("../views/teacher/editGuru.vue"),
+  // },
+  {
+    path: "/Jadwal/Guruadd",
+    name: "addJadwalGuru",
+    component: () => import("../views/schedule/addJadwalGuru.vue"),
+  },
+
+  // routes Picket
+  {
+    path: "/Picket",
+    name: "Picket",
+    component: () => import("../views/picket/picket.vue"),
+  },
+  // {
+  //   path: "/Guru/add",
+  //   name: "addGuru",
+  //   component: () => import("../views/teacher/addGuru.vue"),
+  // },
+  // {
+  //   path: "/Guru/:id/edit",
+  //   name: "editGuru",
+  //   component: () => import("../views/teacher/editGuru.vue"),
+  // },
+
+  // routes Classrom
+  {
+    path: "/Classrom",
+    name: "Classrom",
+    component: () => import("../views/classrom/classrom.vue"),
+  },
+  // {
+  //   path: "/Guru/add",
+  //   name: "addGuru",
+  //   component: () => import("../views/teacher/addGuru.vue"),
+  // },
+  // {
+  //   path: "/Guru/:id/edit",
+  //   name: "editGuru",
+  //   component: () => import("../views/teacher/editGuru.vue"),
+  // },
 ];
 
 const router = createRouter({

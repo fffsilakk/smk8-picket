@@ -47,7 +47,7 @@ const updateTeacher = async () => {
         headers: { Authorization: authToken },
       }
     );
-    router.push("/Guru"); // Redirect to students list page after successful update
+    router.push("/Guru");
   } catch (error) {
     console.error("Error updating student data:", error);
   }

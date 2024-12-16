@@ -205,6 +205,67 @@
               </span>
             </li>
           </router-link>
+
+          <router-link :to="{ name: 'Picket' }">
+            <li>
+              <span
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <svg
+                  class="w-6 h-6 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5 5a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1 2 2 0 0 1 2 2v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2ZM3 19v-7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm6.01-6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-10 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap">Picket</span>
+              </span>
+            </li>
+          </router-link>
+          <router-link :to="{ name: 'Classrom' }">
+            <li>
+              <span
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 64 64"
+                  id="classroom"
+                  width="24"
+                  height="24"
+                >
+                  <path
+                    d="M5 60h14a1 1 0 0 0 1-1 8 8 0 0 0-16 0 1 1 0 0 0 1 1Z"
+                  ></path>
+                  <circle cx="12" cy="45" r="5"></circle>
+                  <path
+                    d="M24 59a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1 8 8 0 0 0-16 0Z"
+                  ></path>
+                  <circle cx="32" cy="45" r="5"></circle>
+                  <path
+                    d="M52 51a8 8 0 0 0-8 8 1 1 0 0 0 1 1h14a1 1 0 0 0 1-1 8 8 0 0 0-8-8Z"
+                  ></path>
+                  <circle cx="52" cy="45" r="5"></circle>
+                  <circle cx="13" cy="9" r="5"></circle>
+                  <path
+                    d="M5 27h3v10a1 1 0 0 0 1 1h3V28a1 1 0 0 1 2 0v10h3a1 1 0 0 0 1-1V21h7a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H8a4 4 0 0 0-4 4v7a1 1 0 0 0 1 1Z"
+                  ></path>
+                  <path
+                    d="M59 4H21a1 1 0 0 0-1 1v9h5a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-5v9a1 1 0 0 0 1 1h38a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1Zm-6 22H43a1 1 0 0 1 0-2h10a1 1 0 0 1 0 2Zm0-7H29a1 1 0 0 1 0-2h24a1 1 0 0 1 0 2Zm0-7H27a1 1 0 0 1 0-2h26a1 1 0 0 1 0 2Z"
+                  ></path>
+                </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap">Classrom</span>
+              </span>
+            </li>
+          </router-link>
           <router-link :to="{ name: 'History' }">
             <li>
               <span

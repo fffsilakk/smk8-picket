@@ -10,7 +10,7 @@ const authToken = "bearer " + auth.token;
 const form = ref({
   number: "",
   name: "",
-  gender: 1, // Default ke 1 (Laki-laki)
+  gender: 1,
   placeOfBorn: "",
   dateOfBorn: "",
   email: "",
@@ -24,7 +24,7 @@ const addStudent = async () => {
     await axios.post("https://picket.ocph23.tech/api/student", form.value, {
       headers: { Authorization: authToken },
     });
-    router.push("/Siswa"); // Redirect ke halaman siswa setelah data ditambahkan
+    router.push("/Siswa");
     resetForm();
   } catch (error) {
     console.error("Error adding student data:", error);

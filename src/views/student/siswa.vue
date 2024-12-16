@@ -113,11 +113,11 @@ onMounted(getStudents);
 
 <template>
   <div
-    class="mt-12 pt-10 p-6 md:px-10 sm:px-6 px-4 md:ml-64 sm:ml-64 ml-20 flex flex-col"
+    class="mt-12 pt-10 p-6 md:px-10 sm:px-6 px-4 md:ml-64 sm:ml-64 flex flex-col"
   >
     <router-link :to="{ name: 'addSiswa' }">
       <button
-        class="bg-slate-900 rounded-md text-white px-8 py-2 my-3 hover:bg-emerald-500 flex justify-end"
+        class="transition bg-emerald-400 rounded hover:shadow text-white px-8 py-2 my-3 hover:bg-emerald-500 flex justify-end"
       >
         Tambah
         <svg
