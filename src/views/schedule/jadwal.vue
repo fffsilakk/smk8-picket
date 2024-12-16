@@ -20,6 +20,16 @@ const router = useRouter();
 
 const auth = JSON.parse(localStorage.getItem("authToken"));
 const authToken = "Bearer " + auth.token;
+const data = reactive({ tahunAjara: 0, teachersNotHaveSchedule: [] });
+
+const dayOfWeeks = [
+  { day: 1, name: "Monday", title: "Senin" },
+  { day: 2, name: "Tuesday", title: "Selasa" },
+  { day: 3, name: "Wednesday", title: "Rabu" },
+  { day: 4, name: "Thursday", title: "Kamis" },
+  { day: 5, name: "Friday", title: "Jumat" },
+  { day: 6, name: "Saturday", title: "Sabtu" },
+];
 
 // Fungsi untuk mengambil data (GET)
 const getData = async () => {
@@ -30,8 +40,15 @@ const getData = async () => {
         headers: { Authorization: authToken },
       }
     );
-    schedules.value = response.data;
-    console.log(schedules.value);
+    var firstSchedule = response.data[0];
+    if (firstSchedule) {
+      data.tahunAjara = firstSchedule.year;
+    }
+
+    schedules.value = Object.groupBy(
+      response.data,
+      ({ dayOfWeek }) => dayOfWeek
+    );
     try {
       const response = await axios.get(
         "https://picket.ocph23.tech/api/teacher",
@@ -89,29 +106,47 @@ const model = reactive({
   teacherName: "",
 });
 const showModal = (dayOfWeek) => {
+  data.teachersNotHaveSchedule = [];
   model.dayOfWeek = dayOfWeek;
   const modal = document.getElementById("my_modal_1");
-  modal.showModal();
+  const teacherExists = [];
+
+  const items = JSON.parse(JSON.stringify(schedules.value));
+  dayOfWeeks.forEach((s) => {
+    const datas = schedules.value[s.name];
+    if (datas) {
+      datas.forEach((element) => {
+        teacherExists.push(element);
+      });
+    }
+  });
+
+  console.log(teacherExists);
+  data.teachersNotHaveSchedule = teachers.value.filter((el) => {
+    return !teacherExists.find((obj) => obj.teacherId === el.id);
+  });
+  setTimeout(() => {
+    modal.showModal();
+  }, 500);
 };
 </script>
 
 <template>
   <div
     class="md:ml-64 sm:ml-64 mt-12 pt-10 p-6 md:px-10 max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14"
-    v-for="(schedule, index) in schedules"
-    :key="index"
   >
     <h2
       class="max-w-lg text-center mb-6 text-3xl font-bold leading-none tracking-tight text-gray-900 sm:text-4xl md:mx-auto"
     >
       Jadwal Picket
-      <span class="relative inline-block">
-        {{ schedule.year }}
+      <span v-if="data.tahunAjara > 0" class="relative inline-block">
+        {{ data.tahunAjara }}
         <div class="w-full h-3 -mt-3 bg-emerald-300"></div>
       </span>
     </h2>
 
     <div
+      v-for="item in dayOfWeeks"
       class="grid sm:grid-cols-1 lg:grid-cols-2 items-center gap-6 md:gap-10"
     >
       <!-- Card senin  -->
@@ -136,7 +171,7 @@ const showModal = (dayOfWeek) => {
           </div>
           <div class="shrink-0">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
-              Senin
+              {{ item.title }}
             </h3>
           </div>
           <!--  start jadwal -->
@@ -144,7 +179,7 @@ const showModal = (dayOfWeek) => {
           <!-- close jadwal -->
           <!-- start modal  -->
           <div class="ml-auto">
-            <button class="btn" @click="showModal(1)">
+            <button class="btn" @click="showModal(item.day)">
               <svg
                 class="w-6 h-6"
                 xmlns="http://www.w3.org/2000/svg"
@@ -155,7 +190,11 @@ const showModal = (dayOfWeek) => {
                 />
               </svg>
             </button>
-            <dialog id="my_modal_1" class="modal">
+            <dialog
+              id="my_modal_1"
+              class="modal"
+              v-if="data.teachersNotHaveSchedule"
+            >
               <div class="modal-box">
                 <h3 class="text-lg text-center pb-3 font-bold">
                   Daftar Guru Picket
@@ -175,11 +214,12 @@ const showModal = (dayOfWeek) => {
                   </thead>
                   <tbody>
                     <tr
+                      v-if="data.teachersNotHaveSchedule"
                       class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                      v-for="(teacher, index) in teachers"
+                      v-for="(teacher, index) in data.teachersNotHaveSchedule"
                       :key="index"
                     >
-                      <td class="px-4 py-3">{{ teacher.teacherId }}</td>
+                      <td class="px-4 py-3">{{ index+1 }}</td>
 
                       <th
                         scope="row"
@@ -234,11 +274,10 @@ const showModal = (dayOfWeek) => {
             <tbody>
               <tr
                 class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                v-for="(schedule, index) in schedules"
+                v-for="(schedule, index) in schedules[item.name]"
                 :key="index"
               >
                 <td class="px-4 py-3">{{ index + 1 }}</td>
-
                 <th
                   scope="row"
                   class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
