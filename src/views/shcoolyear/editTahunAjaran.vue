@@ -43,7 +43,7 @@
         >Active</label
       >
       <select
-        v-model="formData.active"
+        v-model="formData.actived"
         id="active"
         class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
         required
@@ -73,7 +73,7 @@ export default {
       formData: {
         year: null,
         semester: null,
-        active: true,
+        actived: true,
       },
     };
   },
@@ -85,15 +85,9 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const token = `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmZmRiMDY2LWY1MmQtNGE3Ny05YTgxLWVjNzk1NjFhOTFjMCIsIm5hbWUiOiJhZG1pbkBwaWNrZXQub2NwaDIzLnRlY2giLCJzdWIiOiJhZG1pbkBwaWNrZXQub2NwaDIzLnRlY2giLCJlbWFpbCI6ImFkbWluQHBpY2tldC5vY3BoMjMudGVjaCIsImp0aSI6ImJlM2VlMTY3LWZhNTAtNDljZi1iY2M0LTg2NDZiZjdjOWIwMyIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTczMjk0NTMxNiwiZXhwIjoxNzMzNTUwMTE2LCJpYXQiOjE3MzI5NDUzMTYsImlzcyI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyIsImF1ZCI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyJ9.02z3z6HXHNM1NwItAcPAsua7pWBTNY5AvUsDGRLXUEQK2nMkTeg-RGddSJ-zTI0jC1I6stdlMCk5pj3yPoTk7Q`; // Ganti dengan token yang benar
         const id = this.route.params.id;
         const response = await axios.get(
-          `https://picket.ocph23.tech/api/schoolyear/${id}`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
+          `https://picket.ocph23.tech/api/schoolyear/${id}`
         );
 
         this.formData = response.data;
@@ -103,17 +97,10 @@ export default {
     },
     async updateData() {
       try {
-        const token = `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmZmRiMDY2LWY1MmQtNGE3Ny05YTgxLWVjNzk1NjFhOTFjMCIsIm5hbWUiOiJhZG1pbkBwaWNrZXQub2NwaDIzLnRlY2giLCJzdWIiOiJhZG1pbkBwaWNrZXQub2NwaDIzLnRlY2giLCJlbWFpbCI6ImFkbWluQHBpY2tldC5vY3BoMjMudGVjaCIsImp0aSI6ImJlM2VlMTY3LWZhNTAtNDljZi1iY2M0LTg2NDZiZjdjOWIwMyIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTczMjk0NTMxNiwiZXhwIjoxNzMzNTUwMTE2LCJpYXQiOjE3MzI5NDUzMTYsImlzcyI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyIsImF1ZCI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyJ9.02z3z6HXHNM1NwItAcPAsua7pWBTNY5AvUsDGRLXUEQK2nMkTeg-RGddSJ-zTI0jC1I6stdlMCk5pj3yPoTk7Q`; // Ganti dengan token yang benar
         const id = this.route.params.id;
         await axios.put(
           `https://picket.ocph23.tech/api/schoolyear/${id}`,
           this.formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: token,
-            },
-          }
         );
 
         console.log("Data berhasil diupdate");

@@ -77,13 +77,7 @@ export default {
       try {
         const response = await axios.post(
           "https://picket.ocph23.tech/api/department",
-          this.formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmZmRiMDY2LWY1MmQtNGE3Ny05YTgxLWVjNzk1NjFhOTFjMCIsIm5hbWUiOiJhZG1pbkBwaWNrZXQub2NwaDIzLnRlY2giLCJzdWIiOiJhZG1pbkBwaWNrZXQub2NwaDIzLnRlY2giLCJlbWFpbCI6ImFkbWluQHBpY2tldC5vY3BoMjMudGVjaCIsImp0aSI6IjdlOGY2MzhkLTk3MDktNDc4NC04Yjk1LWQ2OWVmN2VkMWQ1NSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTczMTQ2MzY0NywiZXhwIjoxNzMyMDY4NDQ3LCJpYXQiOjE3MzE0NjM2NDcsImlzcyI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyIsImF1ZCI6Imh0dHBzOi8vcGlja2V0Lm9jcGgyMy50ZWNoLyJ9.2V9vfNOnw03E1zSH2shzpsPkjP44ELPHMQfyAP50EmMcSEkFP3Del20Xsn2qbBD7XA0a-t2_axQdy5SN5vrJIA"}`, // Ganti dengan token yang sesuai
-            },
-          }
+          this.formData
         );
 
         console.log("Data added:", response.data);

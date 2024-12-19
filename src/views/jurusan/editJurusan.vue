@@ -7,17 +7,11 @@ const form = ref({ name: "", initial: "", description: "" });
 const router = useRouter();
 const route = useRoute();
 
-const auth = JSON.parse(localStorage.getItem("authToken"));
-const authToken = "bearer " + auth.token;
-
 // Fungsi untuk mengambil data jurusan berdasarkan ID
 const getDepartment = async (id) => {
   try {
     const response = await axios.get(
-      `https://picket.ocph23.tech/api/department/${id}`,
-      {
-        headers: { Authorization: authToken },
-      }
+      `https://picket.ocph23.tech/api/department/${id}`
     );
     form.value = response.data;
   } catch (error) {
@@ -31,10 +25,7 @@ const updateDepartment = async () => {
   try {
     await axios.put(
       `https://picket.ocph23.tech/api/department/${id}`,
-      form.value,
-      {
-        headers: { Authorization: authToken },
-      }
+      form.value
     );
     router.push("/Jurusan"); // Arahkan kembali ke halaman utama setelah update
   } catch (error) {
