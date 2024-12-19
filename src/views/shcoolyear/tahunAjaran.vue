@@ -4,6 +4,7 @@ import axios from "axios";
 import AdminPage from "../../components/AdminPage.vue";
 import { SchoolYearService } from '../../services/SchoolYearService'
 import { ToastService } from '../../services/ToastService'
+import { Helper } from "../../helper";
 
 const schoolYears = ref([]);
 const form = ref({ name: "", year: "", semester: "", active: true });
@@ -17,6 +18,8 @@ const getData = async () => {
     var response = await SchoolYearService.get();
     if (response.isSuccess) {
       schoolYears.value = response.data;
+    }else{
+       ToastService.addToast(Helper.readError(response.errors,"Message"), 'error');
     }
   } catch (error) {
     ToastService.addToast(error, 'error');

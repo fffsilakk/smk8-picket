@@ -1,15 +1,15 @@
 import axios from "axios"
 import { Helper } from '../helper'
 
-const controller = "schoolyear";
+const controller = "classroom";
 
-export const SchoolYearService = {
+export const ClassRoomService = {
     get: async () => {
         var response = await axios.get(`${Helper.url}/${controller}`);
         return Helper.getResult(response);
     },
-    getActive: async () => {
-        var response = await axios.get(`${Helper.url}/${controller}/active`);
+    getById: async (id) => {
+        var response = await axios.get(`${Helper.url}/${controller}/${id}`);
         return Helper.getResult(response);
     },
     post: async (model) => {
