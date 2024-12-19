@@ -219,7 +219,7 @@ const showModal = (dayOfWeek) => {
                       v-for="(teacher, index) in data.teachersNotHaveSchedule"
                       :key="index"
                     >
-                      <td class="px-4 py-3">{{ index+1 }}</td>
+                      <td class="px-4 py-3">{{ index + 1 }}</td>
 
                       <th
                         scope="row"

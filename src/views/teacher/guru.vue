@@ -22,7 +22,7 @@ const teachers = ref([]);
 //   }
 // };
 
-// Fungsi untuk menambah data mahasiswa (POST)
+// Fungsi untuk menambah data guru (POST)
 const addTeacher = async () => {
   try {
     const response = await axios.post(
@@ -40,7 +40,7 @@ const addTeacher = async () => {
   }
 };
 
-// Fungsi untuk mengambil data siswa (GET)
+// Fungsi untuk mengambil data guru/ (GET)
 const getTeachers = async () => {
   try {
     const response = await axios.get("https://picket.ocph23.tech/api/teacher", {
