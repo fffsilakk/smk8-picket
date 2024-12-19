@@ -17,8 +17,8 @@ export default {
       classRommLeaderId: 0,
       homeRoomTeacherId: 0,
     });
-    const showModal = ref(false); // Modal visibility
-    const router = useRouter(); // Untuk navigasi
+    const showModal = ref(false);
+    const router = useRouter();
 
     const auth = JSON.parse(localStorage.getItem("authToken"));
     const authToken = `bearer ${auth?.token}`;
@@ -44,10 +44,10 @@ export default {
     const addClassroom = async () => {
       try {
         const requestBody = {
-          name: form.value.className, // Menyesuaikan dengan body API
-          departmentId: form.value.departmentId, // Menyesuaikan dengan body API
-          classRommLeaderId: form.value.classRommLeaderId, // Menyesuaikan dengan body API
-          homeRoomTeacherId: form.value.homeRoomTeacherId, // Menyesuaikan dengan body API
+          name: form.value.className,
+          departmentId: form.value.departmentId,
+          classRommLeaderId: form.value.classRommLeaderId,
+          homeRoomTeacherId: form.value.homeRoomTeacherId,
         };
 
         const response = await axios.post(
@@ -60,8 +60,8 @@ export default {
           }
         );
         classrooms.value.push(response.data);
-        getclassroom(); // Refresh classroom data
-        showModal.value = false; // Close modal
+        getclassroom();
+        showModal.value = false;
         resetForm();
       } catch (error) {
         console.error(
@@ -155,13 +155,9 @@ export default {
             >
               <option value="">Pilih Jurusan</option>
               <option value="1">Rekayasa Perangkat Lunak</option>
-              <!-- Menyesuaikan ID -->
               <option value="2">Teknik Komputer & Jaringan</option>
-              <!-- Menyesuaikan ID -->
               <option value="3">Teknik Kimia Industri</option>
-              <!-- Menyesuaikan ID -->
               <option value="4">Desain Komunikasi Visual</option>
-              <!-- Menyesuaikan ID -->
             </select>
           </div>
 
@@ -174,9 +170,7 @@ export default {
             >
               <option value="">Pilih Ketua Kelas</option>
               <option value="1">John Doe</option>
-              <!-- Menyesuaikan ID -->
               <option value="2">Jane Smith</option>
-              <!-- Menyesuaikan ID -->
             </select>
           </div>
 
@@ -189,9 +183,8 @@ export default {
             >
               <option value="">Pilih Wali Kelas</option>
               <option value="1">Avif Setyawan</option>
-              <!-- Menyesuaikan ID -->
               <option value="2">Ismael</option>
-              <!-- Menyesuaikan ID -->
+              <option value="3">Fidel</option>
             </select>
           </div>
 
@@ -231,7 +224,6 @@ export default {
             <td class="px-6 py-4">{{ index + 1 }}</td>
             <td class="px-6 py-4">
               {{ classroom.name }}
-              <!-- Mengubah dari className ke name -->
             </td>
             <td class="px-6 py-4">{{ classroom.departmentName }}</td>
             <td class="px-6 py-4">{{ classroom.classLeaderName }}</td>
@@ -240,16 +232,12 @@ export default {
               <router-link :to="`/Tahun-ajaran/${classroom.id}/edit`">
                 <button
                   class="text-black rounded-lg hover:text-slate-500 transition-all duration-200"
-                >
-                  <!-- Edit Button Icon -->
-                </button>
+                ></button>
               </router-link>
               <button
                 @click="deleteData(classroom.id)"
                 class="transition-all duration-200 text-red-500 hover:text-red-700 rounded-lg"
-              >
-                <!-- Delete Button Icon -->
-              </button>
+              ></button>
             </td>
           </tr>
         </tbody>
