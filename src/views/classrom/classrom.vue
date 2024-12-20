@@ -159,7 +159,7 @@ const resetForm = () => {
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="px-6 py-4">{{ index + 1 }}</td>
               <td class="px-6 py-4">
-                {{ classroom.name }}
+                {{ classroom.className }}-{{ classroom.departmentInitial }}
               </td>
               <td class="px-6 py-4">{{ classroom.departmentName }}</td>
               <td class="px-6 py-4">{{ classroom.classLeaderName }}</td>
