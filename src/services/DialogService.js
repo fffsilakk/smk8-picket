@@ -3,7 +3,7 @@ import { reactive } from "vue";
 export const DialogService = reactive({
     isShow: false,
     message: '',
-    type: '',
+    type: 'info',
     duration: 0,
     cancelClick: null,
     okClick: null,
@@ -19,10 +19,8 @@ export const DialogService = reactive({
             this.okText = okText;
             this.okClick = () => {
                 resolve(param);
-                console.log("ok fire");
             }
             this.cancelClick = () => {
-                console.log("cancel fire");
                 reject();
             }
         })
