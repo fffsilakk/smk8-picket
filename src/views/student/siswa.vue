@@ -1,89 +1,57 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import AdminPage from "../../components/AdminPage.vue";
+import { StudentService } from "../../services/StudentService";
+import { ToastService } from "../../services/ToastService";
+
 const router = useRouter();
-
-const auth = JSON.parse(localStorage.getItem("authToken"));
-const authToken = "bearer " + auth.token;
-
-const students = ref([]);
-
-// Fungsi untuk mengambil data (GET)
-// const getStudents = async () => {
-//   try {
-//     const response = await axios.get("https://picket.ocph23.tech/api/student", {
-//       headers: { Authorization: authToken },
-//     });
-//     students.value = response.data;
-//   } catch (error) {
-//     console.error("Error fetching student data:", error.message);
-//   }
-// };
-
-// Fungsi untuk menambah data mahasiswa (POST)
-const addStudent = async () => {
-  try {
-    const response = await axios.post(
-      "https://picket.ocph23.tech/api/student",
-      form.value,
-      {
-        headers: { Authorization: authToken },
-      }
-    );
-    students.value.push(response.data);
-    router.push("/Siswa");
-    resetForm();
-  } catch (error) {
-    console.error("Error adding student data:", error);
-  }
-};
+const data = reactive({
+  students: [],
+  form: {
+    nis: null,
+    nisn: null,
+    name: "",
+    gender: 0,
+    placeOfBorn: "",
+    dateOfBorn: { year: 0, month: 0, day: 0, dayOfWeek: 0 },
+    email: "",
+    description: "",
+    userId: "",
+  },
+});
 
 // Fungsi untuk mengambil data siswa (GET)
-const getStudents = async () => {
+const getData = async () => {
   try {
-    const response = await axios.get("https://picket.ocph23.tech/api/student", {
-      headers: { Authorization: authToken },
-    });
-    students.value = response.data;
+    const response = await StudentService.get();
+    if (response.isSuccess) {
+      data.students = response.data;
+    }
   } catch (error) {
-    console.error("Error fetching student data:", error.message);
-  }
-};
-
-// Fungsi untuk memperbarui data mahasiswa (PUT)
-const updateStudent = async (id) => {
-  try {
-    await axios.put(
-      `https://picket.ocph23.tech/api/student/${id}`,
-      form.value,
-      {
-        headers: { Authorization: authToken },
-      }
-    );
-    getStudents();
-    resetForm();
-  } catch (error) {
-    console.error("Error updating student data:", error);
+    console.error("Error fetching data:", error.message);
   }
 };
 
 // Fungsi untuk menghapus data mahasiswa (DELETE)
-const deleteStudent = async (id) => {
+const deleteData = async (student) => {
   try {
-    await axios.delete(`https://picket.ocph23.tech/api/student/${id}`, {
-      headers: { Authorization: authToken },
-    });
-    getStudents();
+    const response = await StudentService.delete(student.id);
+    if (response.isSuccess) {
+      ToastService.addToast("Data berhasil dihapus.", "success");
+      let index = data.students.indexOf(student);
+      data.students.splice(index, 1);
+    }
   } catch (error) {
-    console.error("Error deleting student data:", error);
+    console.error("Error deleting data:", error);
   }
 };
 
 const resetForm = () => {
   form.value = {
-    number: "",
+    nis: null,
+    nisn: null,
     name: "",
     gender: 0,
     placeOfBorn: "",
@@ -98,7 +66,6 @@ const resetForm = () => {
 const formatDate = (dateOfBorn) => {
   const date = new Date(dateOfBorn);
 
-  // Mengecek apakah tanggal valid
   if (!isNaN(date)) {
     const day = date.getDate().toString().padStart(2, "0");
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -109,7 +76,7 @@ const formatDate = (dateOfBorn) => {
   return "Tanggal Tidak Tersedia";
 };
 
-onMounted(getStudents);
+onMounted(getData);
 </script>
 
 <template>
@@ -136,7 +103,7 @@ onMounted(getStudents);
           </svg>
         </button>
       </router-link>
-  
+
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-1">
         <table
           class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -145,8 +112,8 @@ onMounted(getStudents);
             class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
           >
             <tr>
-              <th class="px-6 py-3">Id</th>
-              <th class="px-6 py-3">Nomor</th>
+              <th class="px-6 py-3">NO</th>
+              <th class="px-6 py-3">Nis</th>
               <th class="px-6 py-3">Nama</th>
               <th class="px-6 py-3">Jenis Kelamin</th>
               <th class="px-6 py-3">Tempat Lahir</th>
@@ -159,12 +126,12 @@ onMounted(getStudents);
           </thead>
           <tbody>
             <tr
-              v-for="(student, index) in students"
+              v-for="(student, index) in data.students"
               :key="index"
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
               <td class="px-6 py-4">{{ index + 1 }}</td>
-              <td class="px-6 py-4">{{ student.number }}</td>
+              <td class="px-6 py-4">{{ student.nis }}</td>
               <td class="px-6 py-4">{{ student.name }}</td>
               <td class="px-6 py-4">
                 {{ student.gender === 1 ? "Laki-laki" : "Perempuan" }}
@@ -178,17 +145,30 @@ onMounted(getStudents);
               <td class="px-6 py-4">{{ student.userId }}</td>
               <td class="px-6 py-4 flex gap-2">
                 <router-link :to="`/Siswa/${student.id}/edit`">
-                  <button
-                    class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
-                  >
-                    Edit
+                  <button class="text-white flex">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-5 text-black hover:text-emerald-500 dark:text-white ml-2"
+                      fill="currentColor"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160L0 416c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-96c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 64z"
+                      />
+                    </svg>
                   </button>
                 </router-link>
-                <button
-                  @click="deleteStudent(student.id)"
-                  class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                >
-                  Delete
+                <button @click="deleteData(student)" class="text-white flex">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"
+                    class="w-5 h-5 text-red-500 hover:text-red-800 dark:text-white ml-2"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z"
+                    />
+                  </svg>
                 </button>
               </td>
             </tr>

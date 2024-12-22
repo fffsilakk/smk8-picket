@@ -13,11 +13,6 @@ const routes = [
     component: () => import("../views/auth/Login.vue"),
   },
   {
-    path: "/Tahun-ajaran",
-    name: "Tahun-ajaran",
-    component: () => import("../views/shcoolyear/tahunAjaran.vue"),
-  },
-  {
     path: "/History",
     name: "History",
     component: () => import("../views/history/history.vue"),
@@ -30,6 +25,11 @@ const routes = [
 
   // routes tahun ajaran
   {
+    path: "/Tahun-ajaran",
+    name: "Tahun-ajaran",
+    component: () => import("../views/shcoolyear/tahunAjaran.vue"),
+  },
+  {
     path: "/Tahun-ajaran/add",
     name: "addShoolyear",
     component: () => import("../views/shcoolyear/addTahunAjaran.vue"),
@@ -38,14 +38,6 @@ const routes = [
     path: "/Tahun-ajaran/:id/edit",
     name: "editSchoolyear",
     component: () => import("../views/shcoolyear/editTahunAjaran.vue"),
-    // beforeEnter: (to, from, next) => {
-    //     const token = localStorage.getItem('auth_token');
-    //     if (token) {
-    //       next(); // Jika token ada, lanjutkan ke halaman
-    //     } else {
-    //       next('/login'); // Jika token tidak ada, arahkan ke halaman login
-    //     }
-    //   }
   },
 
   //routes Departmen

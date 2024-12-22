@@ -1,9 +1,9 @@
 import axios from "axios";
 import { Helper } from "../helper";
 
-const controller = "schoolyear";
+const controller = "student";
 
-export const SchoolYearService = {
+export const StudentService = {
   get: async () => {
     let response = await axios.get(`${Helper.url}/${controller}`);
     return Helper.getResult(response);
