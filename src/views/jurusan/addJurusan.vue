@@ -55,7 +55,7 @@ const resetForm = () => {
           for="name"
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-          Nama
+          Nama Jurusan
         </label>
         <input
           v-model="data.formData.name"
@@ -76,7 +76,7 @@ const resetForm = () => {
           for="initial"
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-          Jurusan
+          Inisial
         </label>
         <input
           v-model="data.formData.initial"

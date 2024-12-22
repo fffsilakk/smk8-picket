@@ -1,16 +1,17 @@
 <script setup>
 import { ref, onMounted, reactive } from "vue";
-import axios from "axios";
 import { useRouter } from "vue-router";
 import AdminPage from "../../components/AdminPage.vue";
 import { DepartmentService } from "../../services/DepartmentService";
 import { ToastService } from "../../services/ToastService";
-// import DeleteView from "../../components/DeleteView.vue";
-
+import ConfirmDeleteModal from "../../components/ConfirmDeleteModal.vue";
 const router = useRouter();
+
 const data = reactive({
-  dapartments: [],
+  departments: [],
   form: { name: "", initial: "", description: "" },
+  departmentToDelete: null,
+  showDeleteModal: false,
 });
 
 // Fungsi untuk mengambil data (GET)
@@ -25,27 +26,36 @@ const getData = async () => {
   }
 };
 
-// Fungsi untuk menghapus data (DELETE)
-const deleteData = async (department) => {
-  try {
-    const response = await DepartmentService.delete(department.id);
-    if (response.isSuccess) {
-      ToastService.addToast("Data berhasil dihapus.", "success");
-      let index = data.departments.indexOf(department);
-      data.departments.splice(index, 1);
-    }
-  } catch (error) {
-    console.error("Error deleting data:", error);
-  }
+const confirmDelete = (department) => {
+  data.departmentToDelete = department;
+  data.showDeleteModal = true;
 };
 
-const resetForm = () => {
-  form.value = { name: "", initial: "", description: "" };
+// Fungsi untuk menghapus data (DELETE)
+const deleteData = async () => {
+  if (data.departmentToDelete) {
+    try {
+      const response = await DepartmentService.delete(
+        data.departmentToDelete.id
+      );
+      if (response.isSuccess) {
+        ToastService.addToast("Data berhasil dihapus.", "success");
+        let index = data.departments.indexOf(data.departmentToDelete);
+        data.departments.splice(index, 1);
+      }
+    } catch (error) {
+      console.error("Error deleting data:", error);
+    } finally {
+      data.showDeleteModal = false;
+    }
+  }
+};
+const cancelDelete = () => {
+  data.showDeleteModal = false;
 };
 
 onMounted(getData);
 </script>
-
 <template>
   <AdminPage>
     <div
@@ -80,7 +90,7 @@ onMounted(getData);
           >
             <tr>
               <th scope="col" class="px-6 py-3">Id</th>
-              <th scope="col" class="px-6 py-3">Nama</th>
+              <th scope="col" class="px-6 py-3">Nama Jurusan</th>
               <th scope="col" class="px-6 py-3">Initial</th>
               <th scope="col" class="px-6 py-3">Description</th>
               <th class="px-6 py-3">Aksi</th>
@@ -111,7 +121,10 @@ onMounted(getData);
                     </svg>
                   </button>
                 </router-link>
-                <button @click="deleteData(department)" class="text-white flex">
+                <button
+                  @click="confirmDelete(department)"
+                  class="text-white flex"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"
@@ -128,6 +141,37 @@ onMounted(getData);
           </tbody>
         </table>
       </div>
+      <div
+        v-if="data.showDeleteModal"
+        class="fixed inset-0 z-50 bg-gray-500 bg-opacity-50 flex justify-center items-center"
+      >
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <p>
+            Apakah Anda yakin ingin menghapus jurusan
+            {{ data.departmentToDelete?.name }}?
+          </p>
+          <div class="mt-4 flex gap-4 justify-end">
+            <button
+              @click="cancelDelete"
+              class="px-4 py-2 bg-gray-400 text-white rounded"
+            >
+              Batal
+            </button>
+            <button
+              @click="deleteData"
+              class="px-4 py-2 bg-red-500 text-white rounded"
+            >
+              Hapus
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+    <!-- <ConfirmDeleteModal
+      :showModal="data.showDeleteModal"
+      :departmentToDelete="data.departmentToDelete"
+      @cancel="cancelDelete"
+      @delete="deleteData"
+    /> -->
   </AdminPage>
 </template>

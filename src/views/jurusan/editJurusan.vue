@@ -52,7 +52,7 @@ const updateDepartment = async () => {
       <form @submit.prevent="updateDepartment">
         <div class="mb-4">
           <label for="name" class="block text-sm font-medium text-gray-700"
-            >Nama</label
+            >Nama Jurusan</label
           >
           <input
             v-model="data.form.name"
@@ -66,7 +66,7 @@ const updateDepartment = async () => {
 
         <div class="mb-4">
           <label for="initial" class="block text-sm font-medium text-gray-700"
-            >Initial</label
+            >Inisial</label
           >
           <input
             v-model="data.form.initial"
