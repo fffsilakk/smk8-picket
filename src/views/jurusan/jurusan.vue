@@ -5,13 +5,12 @@ import AdminPage from "../../components/AdminPage.vue";
 import { DepartmentService } from "../../services/DepartmentService";
 import { ToastService } from "../../services/ToastService";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal.vue";
+import { DialogService } from "../../services/DialogService";
 const router = useRouter();
 
 const data = reactive({
   departments: [],
   form: { name: "", initial: "", description: "" },
-  departmentToDelete: null,
-  showDeleteModal: false,
 });
 
 // Fungsi untuk mengambil data (GET)
@@ -27,20 +26,21 @@ const getData = async () => {
 };
 
 const confirmDelete = (department) => {
-  data.departmentToDelete = department;
-  data.showDeleteModal = true;
+  DialogService.showDialog(`Apakah Anda yakin ingin menghapus jurusan ${department.name} ?`,department).then(result=>{
+      deleteData(department);
+  });
 };
 
 // Fungsi untuk menghapus data (DELETE)
-const deleteData = async () => {
-  if (data.departmentToDelete) {
+const deleteData = async (department) => {
+  if (department) {
     try {
       const response = await DepartmentService.delete(
-        data.departmentToDelete.id
+        department.id
       );
       if (response.isSuccess) {
         ToastService.addToast("Data berhasil dihapus.", "success");
-        let index = data.departments.indexOf(data.departmentToDelete);
+        let index = data.departments.indexOf(department);
         data.departments.splice(index, 1);
       }
     } catch (error) {
@@ -49,9 +49,6 @@ const deleteData = async () => {
       data.showDeleteModal = false;
     }
   }
-};
-const cancelDelete = () => {
-  data.showDeleteModal = false;
 };
 
 onMounted(getData);
