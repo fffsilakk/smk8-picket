@@ -5,9 +5,9 @@ import { useRouter, useRoute } from "vue-router";
 import { ScheduleService } from "../../services/ScheduleService";
 import { TeacherService } from "../../services/TeacherService";
 import { ToastService } from "../../services/ToastService";
+import { DialogService } from "../../services/DialogService";
 
-// import AdminPage from "../../components/AdminPage.vue";
-// import { DialogService } from "../../services/DialogService";
+import AdminPage from "../../components/AdminPage.vue";
 
 const route = useRoute();
 
@@ -77,12 +77,20 @@ const addTeacherToSchool = async (teacher) => {
   console.log(model);
 
   var response = await ScheduleService.post(model);
+  var weekName = dayOfWeeks.find(x => x.day == model.dayOfWeek);
   if (response.isSuccess) {
-    var schedule = schedules.value[model.dayOfWeek];
-    if(!schedule){
-      schedules.value[model.dayOfWeek]=[];
+    if (!schedules.value[weekName.name]) {
+      schedules.value[weekName.name] = [];
     }
-    schedule.push(model);
+
+    var schedule = response.data;
+    schedule.teacherId = teacher.id;
+    schedule.teacherName = teacher.name;
+    schedule.teacherNumber = teacher.registerNumber;
+    schedule.photo = teacher.photo;
+    schedules.value[weekName.name].push(schedule);
+    const modal = document.getElementById("my_modal_1");
+    modal.close();
     ToastService.addToast("Data berhasil disimpan !", "success");
   } else {
     ToastService.addToast("Data gagal disimpan !", "danger");
@@ -121,21 +129,43 @@ const showModal = (dayOfWeek) => {
     modal.showModal();
   }, 500);
 };
+
+const getAvatar = (photo) => {
+  if (photo)
+    return photo
+
+    return "/man.png";
+
+}
+const deleteData = (schedule) => {
+  DialogService.showDialog("Yakin Hapus Data ?", schedule.id, 'danger').then((result) => {
+    ScheduleService.delete(schedule.id).then((deleteResponse) => {
+      if (deleteResponse.isSuccess) {
+        ToastService.addToast("Data berhasil dihapus", "success");
+        var index = schedules.value[schedule.dayOfWeek].indexOf(schedule);
+        schedules.value[schedule.dayOfWeek].splice(index, 1)
+      } else {
+        ToastService.addToast("Data gagal dihapus", "danger");
+      }
+    });
+  })
+};
+
 </script>
 
 <template>
-  <div class="mt-12 m-auto pt-10 p-6 md:px-10 max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-    <h2
-      class="max-w-lg text-center mb-6 text-3xl font-bold leading-none tracking-tight text-gray-900 sm:text-4xl md:mx-auto">
-      Jadwal Picket
-      <span v-if="data.tahunAjara > 0" class="relative inline-block">
-        {{ data.tahunAjara }}
-        <div class="w-full h-3 -mt-3 bg-emerald-300"></div>
-      </span>
-    </h2>
-    <div class="grid-cols-2 grid gap-3 sm:grid-cols-4 lg:grid-cols-2">
+  <AdminPage>
+    <div class="mt-12 pt-10 p-6 md:px-10 sm:px-6 px-4 md:ml-64 sm:ml-64 ml-20 flex flex-col">
+      <h2
+        class="max-w-lg text-center mb-6 text-3xl font-bold leading-none tracking-tight text-gray-900 sm:text-4xl md:mx-auto">
+        Jadwal Picket
+        <span v-if="data.tahunAjara > 0" class="relative inline-block">
+          {{ data.tahunAjara }}
+          <div class="w-full h-3 -mt-3 bg-emerald-300"></div>
+        </span>
+      </h2>
       <div v-for="item in dayOfWeeks" :key="item.name" class="grid">
-        <div class="grid grid-cols-1 shadow-lg rounded-lg p-5 dark:bg-neutral-900">
+        <div class="mb-10 grid grid-cols-1 shadow-lg rounded-lg p-5 dark:bg-neutral-900">
           <div class="flex items-center gap-x-4 mb-3">
             <div
               class="inline-flex justify-center items-center w-[62px] h-[62px] rounded-full border-4 border-blue-50 bg-blue-100 dark:border-blue-900 dark:bg-blue-800">
@@ -166,30 +196,28 @@ const showModal = (dayOfWeek) => {
           </div>
 
           <div class="overflow-x-auto grid">
-            <table class="overflow-x-auto min-w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <table
+              class=" overflow-x-auto min-w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th scope="col" class="px-6 py-3">No</th>
-                  <th scope="col" class="px-6 py-3">Nama</th>
-                  <th scope="col" class="px-6 py-3">No Guru</th>
-                  <th scope="col" class="px-6 py-3">Action</th>
+                  <th class="w-5 px-6 py-3">No</th>
+                  <th class="w-10 text-center px-6 py-3">Photo</th>
+                  <th class="w-1/2 text-left px-6 py-3">Nama</th>
+                  <th class="w-48 text-left px-6 py-3">NIP/Nomor Induk</th>
+                  <th class="w-10 px-6 py-3"></th>
                 </tr>
               </thead>
               <tbody>
                 <tr
                   class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   v-for="(schedule, index) in schedules[item.name]" :key="index">
-                  <td class="px-4 py-3">{{ index + 1 }}</td>
-                  <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                    <img class="w-10 h-10 rounded-full" :src="schedule.photo" alt="" />
-                    <div class="pl-3">
-                      <div class="text-base font-medium">
-                        {{ schedule.teacherName }}
-                      </div>
-                    </div>
-                  </th>
-                  <td class="px-6 py-4">{{ schedule.teacherId }}</td>
-                  <td class="px-6 py-4 flex gap-2">
+                  <td class=" text-center px-6 py-3">{{ index + 1 }}</td>
+                  <td class="text-center px-4 py-3">
+                    <img class="w-10 h-10 rounded-full" :src="getAvatar(schedule.photo)" alt="" />
+                  </td>
+                  <td class="text-left px-6 py-3">{{ schedule.teacherName }}</td>
+                  <td class="text-left px-6 py-3">{{ schedule.teacherNumber }}</td>
+                  <td>
                     <button @click="updateData(schedule.id)"
                       class="text-emerald-500 rounded-lg hover:text-emerald-600 transition-all duration-200">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5" fill="currentColor">
@@ -197,7 +225,7 @@ const showModal = (dayOfWeek) => {
                           d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z" />
                       </svg>
                     </button>
-                    <button @click="deleteData(schedule.id)"
+                    <button @click="deleteData(schedule)"
                       class="transition-all duration-200 text-red-500 hover:text-red-700 rounded-lg">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="w-5 h-5" fill="currentColor">
                         <path
@@ -211,52 +239,49 @@ const showModal = (dayOfWeek) => {
           </div>
         </div>
       </div>
-    </div>
 
-    <dialog id="my_modal_1" class="modal" v-if="data.teachersNotHaveSchedule">
-      <div class="modal-box">
-        <h3 class="text-lg text-center pb-3 font-bold">
-          Daftar Guru Picket
-        </h3>
-        <table class="overflow-x-auto min-w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" class="px-6 py-3">No</th>
-              <th scope="col" class="px-6 py-3">Name</th>
-              <th scope="col" class="px-6 py-3">Email</th>
-              <th scope="col" class="px-6 py-3">Action</th>
-            </tr>
-          </thead>
-          <tbody v-if="data.teachersNotHaveSchedule">
-            <tr
-              class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-              v-for="(teacher, index) in data.teachersNotHaveSchedule" :key="index">
-              <td class="px-4 py-3">{{ index + 1 }}</td>
-
-              <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                <img class="w-10 h-10 rounded-full" alt="" />
-                <div class="pl-3">
-                  <div class="text-base font-medium">
-                    {{ teacher.name }}
+      <dialog id="my_modal_1" class="modal" v-if="data.teachersNotHaveSchedule">
+        <div class="modal-box">
+          <h3 class="text-lg text-center pb-3 font-bold">
+            Daftar Guru Picket
+          </h3>
+          <table class="overflow-x-auto min-w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th class="px-6 py-3">Teacher</th>
+                <th class="px-6 py-3">Email</th>
+                <th class="px-6 py-3">Action</th>
+              </tr>
+            </thead>
+            <tbody v-if="data.teachersNotHaveSchedule">
+              <tr
+                class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                v-for="(teacher, index) in data.teachersNotHaveSchedule" :key="index">
+                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                  <div class="pl-3 flex justify-center items-center">
+                    <img class="w-10 h-10 rounded-full" :src="getAvatar(teacher.photo)" alt="" />
+                    <div class="text-base font-medium ml-3">
+                      {{ teacher.name }}
+                    </div>
                   </div>
-                </div>
-              </th>
-              <td class="px-6 py-4"></td>
+                </th>
+                <td class="px-6 py-4">{{ teacher.registerNumber }}</td>
 
-              <td class="px-6 py-4 flex gap-2">
-                <button class="btn" @click="addTeacherToSchool(teacher)">
-                  Save
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="modal-action">
-          <form method="dialog">
-            <button class="btn">Close</button>
-          </form>
+                <td >
+                  <button class=" w-12 h-5 btn " @click="addTeacherToSchool(teacher)">
+                    Save
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="modal-action">
+            <form method="dialog">
+              <button class="btn">Close</button>
+            </form>
+          </div>
         </div>
-      </div>
-    </dialog>
-  </div>
+      </dialog>
+    </div>
+  </AdminPage>
 </template>
