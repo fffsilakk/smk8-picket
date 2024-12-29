@@ -8,8 +8,8 @@ export const ScheduleService = {
     let response = await axios.get(`${Helper.url}/${controller}`);
     return Helper.getResult(response);
   },
-  getActive: async () => {
-    let response = await axios.get(`${Helper.url}/${controller}/active`);
+  getBySchoolYearId: async (scheduleId) => {
+    let response = await axios.get(`${Helper.url}/${controller}/byschoolyearId/${scheduleId}`);
     return Helper.getResult(response);
   },
   post: async (model) => {
