@@ -103,11 +103,11 @@ const routes = [
   //   name: "editGuru",
   //   component: () => import("../views/teacher/editGuru.vue"),
   // },
-  {
-    path: "/Jadwal/Guruadd",
-    name: "addJadwalGuru",
-    component: () => import("../views/schedule/addJadwalGuru.vue"),
-  },
+  // {
+  //   path: "/Jadwal/Guruadd",
+  //   name: "addJadwalGuru",
+  //   component: () => import("../views/schedule/addJadwalGuru.vue"),
+  // },
 
   // routes Picket
   {

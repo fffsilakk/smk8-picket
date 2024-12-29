@@ -5,6 +5,7 @@ import { useRouter } from "vue-router";
 import AdminPage from "../../components/AdminPage.vue";
 import { TeacherService } from "../../services/TeacherService";
 import { ToastService } from "../../services/ToastService";
+import { DialogService } from "../../services/DialogService";
 
 const router = useRouter();
 
@@ -59,6 +60,19 @@ const resetForm = () => {
     description: "",
     userId: "",
   };
+};
+
+const confirmDelete = (teacher) => {
+  DialogService.showDialog(
+    `Apakah Anda yakin ingin menghapus ${teacher.name} ?`,
+    teacher,
+    "warning",
+    3000,
+    "Batal",
+    "Hapus"
+  ).then((result) => {
+    deleteData(teacher);
+  });
 };
 
 // Fungsi untuk memformat tanggal
@@ -157,7 +171,7 @@ onMounted(getData);
                     </svg>
                   </button>
                 </router-link>
-                <button @click="deleteData(teacher)" class="text-white flex">
+                <button @click="confirmDelete(teacher)" class="text-white flex">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"

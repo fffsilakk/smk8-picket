@@ -5,6 +5,7 @@ import { useRouter } from "vue-router";
 import AdminPage from "../../components/AdminPage.vue";
 import { SchoolYearService } from "../../services/SchoolYearService";
 import { ToastService } from "../../services/ToastService";
+import { DialogService } from "../../services/DialogService";
 
 const router = useRouter();
 const data = reactive({
@@ -36,6 +37,19 @@ const deleteData = async (schoolYear) => {
   } catch (error) {
     console.error("Error deleting data:", error);
   }
+};
+
+const confirmDelete = (schoolYear) => {
+  DialogService.showDialog(
+    `Apakah Anda yakin ingin menghapus Tahun Ajaran ${schoolYear.name} ?`,
+    schoolYear,
+    "warning",
+    3000,
+    "Batal",
+    "Hapus"
+  ).then((result) => {
+    deleteData(schoolYear);
+  });
 };
 
 const resetForm = () => {
@@ -114,7 +128,10 @@ onMounted(getData);
                     </svg>
                   </button>
                 </router-link>
-                <button @click="deleteData(schoolYear)" class="text-white flex">
+                <button
+                  @click="confirmDelete(schoolYear)"
+                  class="text-white flex"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"

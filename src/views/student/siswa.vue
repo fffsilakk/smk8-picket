@@ -5,6 +5,7 @@ import { useRouter } from "vue-router";
 import AdminPage from "../../components/AdminPage.vue";
 import { StudentService } from "../../services/StudentService";
 import { ToastService } from "../../services/ToastService";
+import { DialogService } from "../../services/DialogService";
 
 const router = useRouter();
 const data = reactive({
@@ -34,7 +35,7 @@ const getData = async () => {
   }
 };
 
-// Fungsi untuk menghapus data mahasiswa (DELETE)
+// Fungsi untuk menghapus data siswa (DELETE)
 const deleteData = async (student) => {
   try {
     const response = await StudentService.delete(student.id);
@@ -60,6 +61,19 @@ const resetForm = () => {
     description: "",
     userId: "",
   };
+};
+
+const confirmDelete = (student) => {
+  DialogService.showDialog(
+    `Apakah Anda yakin ingin menghapus ${student.name} ?`,
+    student,
+    "warning",
+    3000,
+    "Batal",
+    "Hapus"
+  ).then((result) => {
+    deleteData(student);
+  });
 };
 
 // Fungsi untuk memformat tanggal
@@ -158,7 +172,7 @@ onMounted(getData);
                     </svg>
                   </button>
                 </router-link>
-                <button @click="deleteData(student)" class="text-white flex">
+                <button @click="confirmDelete(student)" class="text-white flex">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"

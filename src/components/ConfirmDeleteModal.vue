@@ -25,7 +25,6 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { defineProps, defineEmits } from "vue";
 
