@@ -27,16 +27,15 @@ const updateDepartment = async () => {
   try {
     const response = await DepartmentService.put(departmentId, data.form);
     if (response.isSuccess) {
-      ToastService.addToast("Data berhasil disimpan.", "success");
+      ToastService.successToast("Data berhasil disimpan.");
       router.push({ path: "/Jurusan" });
     } else {
       console.log("API Error Response:", response.errors);
       data.errors = response.errors;
-      ToastService.addToast(Helper.readError(data.errors, "Message"), "error");
+      ToastService.dangerToast(Helper.readError(data.errors, "Message"));
     }
   } catch (error) {
-    console.error("Error saving teacher data:", error);
-    alert("Terjadi kesalahan saat menyimpan data.");
+    ToastService.dangerToast(error);
   }
 };
 </script>

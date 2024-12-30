@@ -27,12 +27,12 @@ const updateSchoolYear = async () => {
   try {
     const response = await SchoolYearService.put(schoolYearId, data.form);
     if (response.isSuccess) {
-      ToastService.addToast("Data berhasil disimpan.", "success");
+      ToastService.successToast("Data berhasil disimpan.", "success");
       router.push({ path: "/Tahun-ajaran" });
     } else {
       console.log("API Error Response:", response.errors);
       data.errors = response.errors;
-      ToastService.addToast(Helper.readError(data.errors, "Message"), "error");
+      ToastService.dangerToast(Helper.readError(data.errors, "Message"), "error");
     }
   } catch (error) {
     console.error("Error saving teacher data:", error);

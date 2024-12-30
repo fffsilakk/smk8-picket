@@ -6,6 +6,7 @@ import AdminPage from "../../components/AdminPage.vue";
 import { TeacherService } from "../../services/TeacherService";
 import { ToastService } from "../../services/ToastService";
 import { DialogService } from "../../services/DialogService";
+import { Helper } from "../../helper";
 
 const router = useRouter();
 
@@ -40,7 +41,7 @@ const deleteData = async (teacher) => {
   try {
     const response = await TeacherService.delete(teacher.id);
     if (response.isSuccess) {
-      ToastService.addToast("Data berhasil dihapus.", "success");
+      ToastService.successToast("Data berhasil dihapus.");
       let index = data.teachers.indexOf(teacher);
       data.teachers.splice(index, 1);
     }
@@ -75,19 +76,6 @@ const confirmDelete = (teacher) => {
   });
 };
 
-// Fungsi untuk memformat tanggal
-const formatDate = (dateOfBorn) => {
-  const date = new Date(dateOfBorn);
-
-  if (!isNaN(date)) {
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear();
-
-    return `${day}/${month}/${year}`;
-  }
-  return "Tanggal Tidak Tersedia";
-};
 
 onMounted(getData);
 </script>
@@ -125,15 +113,12 @@ onMounted(getData);
             class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
           >
             <tr>
-              <th class="px-6 py-3">Id</th>
-              <th class="px-6 py-3">Nomor Register</th>
+              <th class="w-3 px-6 py-3">Id</th>
               <th class="px-6 py-3">Nama</th>
+              <th class="px-6 py-3">NIP/Nomor Induk</th>
               <th class="px-6 py-3">Jenis Kelamin</th>
-              <th class="px-6 py-3">Tempat Lahir</th>
-              <th class="px-6 py-3">Tanggal Lahir</th>
+              <th class="px-6 py-3">TTL</th>
               <th class="px-6 py-3">Email</th>
-              <th class="px-6 py-3">Deskripsi</th>
-              <th class="px-6 py-3">User ID</th>
               <th class="px-6 py-3">Aksi</th>
             </tr>
           </thead>
@@ -144,24 +129,22 @@ onMounted(getData);
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
               <td class="px-6 py-4">{{ index + 1 }}</td>
+              <td class="flex justify-start items-center px-6 py-4">
+                <img class="w-8 h-8 rounded-full" :src="Helper.getTeacherAvatar(teacher.photo)">
+                <span class="ml-2">{{ teacher.name }}</span>
+              </td>
               <td class="px-6 py-4">{{ teacher.registerNumber }}</td>
-              <td class="px-6 py-4">{{ teacher.name }}</td>
               <td class="px-6 py-4">
                 {{ teacher.gender === 1 ? "Laki-laki" : "Perempuan" }}
               </td>
-              <td class="px-6 py-4">{{ teacher.placeOfBorn }}</td>
-              <td class="px-6 py-4">
-                {{ formatDate(teacher.dateOfBorn) }}
-              </td>
+              <td class="px-6 py-4">{{ teacher.placeOfBorn }},   {{!teacher.dateOfBorn?"": Helper.formatDate(teacher.dateOfBorn) }}</td>
               <td class="px-6 py-4">{{ teacher.email }}</td>
-              <td class="px-6 py-4">{{ teacher.description }}</td>
-              <td class="px-6 py-4">{{ teacher.userId }}</td>
               <td class="px-6 py-4 flex gap-2">
                 <router-link :to="`/Guru/${teacher.id}/edit`">
                   <button class="text-white flex">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="w-5 h-5 text-black hover:text-emerald-500 dark:text-white ml-2"
+                      class="w-5 h-5 text-yellow-300 hover:text-emerald-500 dark:text-white ml-2"
                       fill="currentColor"
                       viewBox="0 0 512 512"
                     >

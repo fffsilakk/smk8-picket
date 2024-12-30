@@ -44,7 +44,7 @@ const deleteData = async (department) => {
     try {
       const response = await DepartmentService.delete(department.id);
       if (response.isSuccess) {
-        ToastService.addToast("Data berhasil dihapus.", "success");
+        ToastService.successToast("Data berhasil dihapus.");
         let index = data.departments.indexOf(department);
         data.departments.splice(index, 1);
       }

@@ -30,7 +30,7 @@ const deleteData = async (schoolYear) => {
   try {
     const response = await SchoolYearService.delete(schoolYear.id);
     if (response.isSuccess) {
-      ToastService.addToast("Data berhasil dihapus.", "success");
+      ToastService.successToast("Data berhasil dihapus.");
       let index = data.schoolYears.indexOf(schoolYear);
       data.schoolYears.splice(index, 1);
     }

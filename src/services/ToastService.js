@@ -11,6 +11,15 @@ export const ToastService = reactive({
       this.removeToast(id);
     }, duration);
   },
+  dangerToast(message, duration = 3000) {
+    this.addToast(message,'error',duration)
+  },
+  successToast(message, duration = 3000) {
+    this.addToast(message,'success',duration)
+  },
+  warningToast(message, duration = 3000) {
+    this.addToast(message,'warning',duration)
+  },
   removeToast(id) {
     this.toasts = this.toasts.filter((toast) => toast.id !== id);
   },

@@ -65,14 +65,14 @@ const addData = async () => {
   try {
     const response = await SchoolYearService.post(data.formData);
     if (response.isSuccess) {
-      ToastService.addToast("Data berhasil ditambahkan", "success");
+      ToastService.successToast("Data berhasil ditambahkan", "success");
       this.router.push({ path: "/Tahun-ajaran" }); // Navigasi ke halaman tahun ajaran
     } else {
       data.errors = response.errors;
-      ToastService.addToast(Helper.readError(data.errors, "Message"), "error");
+      ToastService.dangerToast(Helper.readError(data.errors, "Message"), "error");
     }
   } catch (error) {
-    ToastService.addToast("Terjadi kesalahan saat menambahkan data", "error");
+    ToastService.dangerToast("Terjadi kesalahan saat menambahkan data", "error");
   }
 };
 

@@ -38,12 +38,12 @@ const updateStudent = async () => {
   try {
     const response = await StudentService.put(studentId, data.form);
     if (response.isSuccess) {
-      ToastService.addToast("Data berhasil disimpan.", "success");
+      ToastService.successToast("Data berhasil disimpan.");
       router.push({ path: "/Siswa" });
     } else {
       console.log("API Error Response:", response.errors);
       data.errors = response.errors;
-      ToastService.addToast(Helper.readError(data.errors, "Message"), "error");
+      ToastService.dangerToast(Helper.readError(data.errors, "Message"));
     }
   } catch (error) {
     console.error("Error saving teacher data:", error);

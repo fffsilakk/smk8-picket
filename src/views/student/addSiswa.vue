@@ -30,11 +30,11 @@ const addData = async () => {
     data.errors = [];
     const response = await StudentService.post(data.formData);
     if (response.isSuccess) {
-      ToastService.addToast("Data berhasil disimpan.", "success");
+      ToastService.successToast("Data berhasil disimpan.");
       router.push({ path: "/Siswa" });
     } else {
       data.errors = response.errors;
-      ToastService.addToast(Helper.readError(data.errors, "Message"), "error");
+      ToastService.dangerToast(Helper.readError(data.errors, "Message"));
     }
   } catch (error) {
     console.error("Error adding data:", error);

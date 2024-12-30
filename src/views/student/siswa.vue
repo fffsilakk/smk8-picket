@@ -6,6 +6,7 @@ import AdminPage from "../../components/AdminPage.vue";
 import { StudentService } from "../../services/StudentService";
 import { ToastService } from "../../services/ToastService";
 import { DialogService } from "../../services/DialogService";
+import { Helper } from "../../helper";
 
 const router = useRouter();
 const data = reactive({
@@ -40,7 +41,7 @@ const deleteData = async (student) => {
   try {
     const response = await StudentService.delete(student.id);
     if (response.isSuccess) {
-      ToastService.addToast("Data berhasil dihapus.", "success");
+      ToastService.successToast("Data berhasil dihapus.");
       let index = data.students.indexOf(student);
       data.students.splice(index, 1);
     }
@@ -74,20 +75,6 @@ const confirmDelete = (student) => {
   ).then((result) => {
     deleteData(student);
   });
-};
-
-// Fungsi untuk memformat tanggal
-const formatDate = (dateOfBorn) => {
-  const date = new Date(dateOfBorn);
-
-  if (!isNaN(date)) {
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear();
-
-    return `${day}/${month}/${year}`;
-  }
-  return "Tanggal Tidak Tersedia";
 };
 
 onMounted(getData);
@@ -129,12 +116,9 @@ onMounted(getData);
               <th class="px-6 py-3">NO</th>
               <th class="px-6 py-3">Nis</th>
               <th class="px-6 py-3">Nama</th>
-              <th class="px-6 py-3">Jenis Kelamin</th>
-              <th class="px-6 py-3">Tempat Lahir</th>
-              <th class="px-6 py-3">Tanggal Lahir</th>
+              <th class="px-6 py-3">Kelamin</th>
+              <th class="px-6 py-3">TTL</th>
               <th class="px-6 py-3">Email</th>
-              <th class="px-6 py-3">Deskripsi</th>
-              <th class="px-6 py-3">User ID</th>
               <th class="px-6 py-3">Aksi</th>
             </tr>
           </thead>
@@ -150,13 +134,9 @@ onMounted(getData);
               <td class="px-6 py-4">
                 {{ student.gender === 1 ? "Laki-laki" : "Perempuan" }}
               </td>
-              <td class="px-6 py-4">{{ student.placeOfBorn }}</td>
-              <td class="px-6 py-4">
-                {{ formatDate(student.dateOfBorn) }}
-              </td>
+              <td class="px-6 py-4">{{ student.placeOfBorn }},   {{!student.dateOfBorn?"": Helper.formatDate(student.dateOfBorn) }}</td>
+              
               <td class="px-6 py-4">{{ student.email }}</td>
-              <td class="px-6 py-4">{{ student.description }}</td>
-              <td class="px-6 py-4">{{ student.userId }}</td>
               <td class="px-6 py-4 flex gap-2">
                 <router-link :to="`/Siswa/${student.id}/edit`">
                   <button class="text-white flex">

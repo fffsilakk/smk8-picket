@@ -8,6 +8,7 @@ import { ToastService } from "../../services/ToastService";
 import { DialogService } from "../../services/DialogService";
 
 import AdminPage from "../../components/AdminPage.vue";
+import { Helper } from "../../helper";
 
 const route = useRoute();
 
@@ -91,9 +92,9 @@ const addTeacherToSchool = async (teacher) => {
     schedules.value[weekName.name].push(schedule);
     const modal = document.getElementById("my_modal_1");
     modal.close();
-    ToastService.addToast("Data berhasil disimpan !", "success");
+    ToastService.successToast("Data berhasil disimpan !");
   } else {
-    ToastService.addToast("Data gagal disimpan !", "danger");
+    ToastService.dangerToast("Data gagal disimpan !");
   }
 
 };
@@ -132,7 +133,7 @@ const showModal = (dayOfWeek) => {
 
 const getAvatar = (photo) => {
   if (photo)
-    return photo
+    return `${Helper.url}/photos/teacher/${photo}`;
 
     return "/man.png";
 
@@ -141,11 +142,11 @@ const deleteData = (schedule) => {
   DialogService.showDialog("Yakin Hapus Data ?", schedule.id, 'danger').then((result) => {
     ScheduleService.delete(schedule.id).then((deleteResponse) => {
       if (deleteResponse.isSuccess) {
-        ToastService.addToast("Data berhasil dihapus", "success");
+        ToastService.successToast("Data berhasil dihapus");
         var index = schedules.value[schedule.dayOfWeek].indexOf(schedule);
         schedules.value[schedule.dayOfWeek].splice(index, 1)
       } else {
-        ToastService.addToast("Data gagal dihapus", "danger");
+        ToastService.dangerToast("Data gagal dihapus");
       }
     });
   })

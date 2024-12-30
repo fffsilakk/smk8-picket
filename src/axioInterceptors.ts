@@ -6,13 +6,13 @@ import { useRoute, useRouter } from "vue-router";
 
 const authString = localStorage.getItem("authToken");
 const auth = JSON.parse(authString!);
-axios.defaults.baseURL = Helper.url;
+axios.defaults.baseURL = Helper.urlApi;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.defaults.headers.common['Authorization'] = auth ? 'Bearer ' + auth.token : '';
 const router = useRouter();
 
 const onNotFound = () => {
-    ToastService.addToast('Alamat URL Tidak Ditemukan.', 'error');
+    ToastService.dangerToast('Alamat URL Tidak Ditemukan.');
 }
 
 const isRefreshToken = ref(false);
@@ -27,11 +27,11 @@ axios.interceptors.response.use(function (response,) {
         const pesanError: string = 'Password lama yang anda masukkan tidak sesuai';
         if (axiosResponse.status == 401) {
             if (response.messages.error !== pesanError) {
-                ToastService.addToast(response.messages.error, 'error');
+                ToastService.dangerToast(response.messages.error);
                 // AuthService.logout();
                 // router.push('/login');
             }
-            ToastService.addToast(response.messages.error, 'error');
+            ToastService.dangerToast(response.messages.error);
             return err;
         }
 
@@ -41,12 +41,12 @@ axios.interceptors.response.use(function (response,) {
         }
 
         if (axiosResponse.status == 503) {
-            ToastService.addToast(response.messages.error, 'error')
+            ToastService.dangerToast(response.messages.err)
             router.push(`/error-page${axiosResponse.status}`);
             return err;
         }
         if (axiosResponse.status == 500) {
-            ToastService.addToast(response.messages.error, 'error')
+            ToastService.dangerToast(response.messages.err)
             router.push(`/error-page${axiosResponse.status}`);
             return err;
         }
@@ -62,7 +62,7 @@ axios.interceptors.response.use(function (response,) {
         throw new Error(errorMessage);
     } catch (error: any) {
         console.log(error);
-        ToastService.addToast(error.message);
+        ToastService.dangerToast(error);
     }
     return Promise.reject(err);
 });
