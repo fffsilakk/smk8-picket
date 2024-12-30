@@ -1,10 +1,15 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import AdminPage from '../../components/AdminPage.vue'
 import { ClassRoomService } from '../../services/ClassRoomService'
+import { DepartmentService } from '../../services/DepartmentService'
+import AutoComplete from "../../components/AutoComplete.vue";
 
+
+
+const data = reactive({ departments: [] });
 const classrooms = ref([]);
 const form = ref({
   className: "",
@@ -24,6 +29,12 @@ try {
   ClassRoomService.get().then((response) => {
     classrooms.value = response.data;
   });
+
+  DepartmentService.get().then((response) => {
+    data.departments = response.data;
+  });
+
+
 } catch (error) {
   console.error("Error fetching data:", error.message);
 }
@@ -74,6 +85,12 @@ const resetForm = () => {
   };
 };
 
+function ketuaKelasOnchange(tes){
+  queryx.value=tes.target.value;
+}
+
+const queryx=ref('')
+
 </script>
 
 <template>
@@ -104,21 +121,21 @@ const resetForm = () => {
             <div class="form-control">
               <label class="label">Nama Jurusan</label>
               <select v-model="form.departmentId" class="input input-bordered" required>
-                <option value="">Pilih Jurusan</option>
-                <option value="1">Rekayasa Perangkat Lunak</option>
-                <option value="2">Teknik Komputer & Jaringan</option>
-                <option value="3">Teknik Kimia Industri</option>
-                <option value="4">Desain Komunikasi Visual</option>
+                <option class="text-slate-300">Pilih Ketua Kelas</option>
+                <option value="" v-for="department in data.departments" :value="department.id">
+                  {{ department.name }}
+                </option>
               </select>
             </div>
 
             <div class="form-control">
               <label class="label">Ketua Kelas</label>
-              <select v-model="form.classRommLeaderId" class="input input-bordered" required>
-                <option value="">Pilih Ketua Kelas</option>
-                <option value="1">John Doe</option>
-                <option value="2">Jane Smith</option>
-              </select>
+              <div class="flex">
+                <AutoComplete  :onChange="ketuaKelasOnchange"></AutoComplete>
+                {{ queryx }}
+                <button class="btn" type="button" @click="Search">Cari</button>
+              </div>
+
             </div>
 
             <div class="form-control">
