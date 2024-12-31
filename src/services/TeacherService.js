@@ -8,8 +8,8 @@ export const TeacherService = {
     let response = await axios.get(`${controller}`);
     return Helper.getResult(response);
   },
-  getActive: async () => {
-    let response = await axios.get(`${controller}/active`);
+  search: async (keyword) => {
+    let response = await axios.get(`${controller}/search/${keyword}`);
     return Helper.getResult(response);
   },
   post: async (model) => {

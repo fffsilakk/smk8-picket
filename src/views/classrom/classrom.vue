@@ -1,15 +1,19 @@
 <script setup>
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted, reactive, computed } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import AdminPage from '../../components/AdminPage.vue'
 import { ClassRoomService } from '../../services/ClassRoomService'
 import { DepartmentService } from '../../services/DepartmentService'
+import { StudentService } from '../../services/StudentService'
+import { TeacherService } from '../../services/TeacherService'
 import AutoComplete from "../../components/AutoComplete.vue";
+import { ToastService } from "../../services/ToastService";
+import { Helper } from "../../helper";
+import DeleteIcon from "../../components/Icons/DeleteIcon.vue";
+import EditIcon from "../../components/Icons/EditIcon.vue";
 
 
-
-const data = reactive({ departments: [] });
 const classrooms = ref([]);
 const form = ref({
   className: "",
@@ -18,7 +22,7 @@ const form = ref({
   classLeaderName: "",
   homeRoomTeacherName: "",
   departmentId: 0,
-  classRommLeaderId: 0,
+  classLeaderId: 0,
   homeRoomTeacherId: 0,
 });
 const showModal = ref(false);
@@ -42,25 +46,43 @@ try {
 const addClassroom = async () => {
   try {
     const requestBody = {
+      id: form.value.id,
       name: form.value.className,
       departmentId: form.value.departmentId,
-      classRommLeaderId: form.value.classRommLeaderId,
+      classRommLeaderId: form.value.classLeaderId,
       homeRoomTeacherId: form.value.homeRoomTeacherId,
     };
 
-    const response = await axios.post(
-      "https://picket.ocph23.tech/api/classroom",
-      requestBody,
-      {
-        headers: {
-          Authorization: authToken,
-        },
-      }
-    );
-    classrooms.value.push(response.data);
-    getclassroom();
-    showModal.value = false;
-    resetForm();
+    if (!form.value.id) {
+      ClassRoomService.post(requestBody).then((response) => {
+        if (response.isSuccess) {
+          classrooms.value.push(response.data);
+          showModal.value = false;
+          resetForm();
+          ToastService.successToast("Data berhasil tambahkan");
+        } else {
+          ToastService.dangerToast(Helper.readDetailError(response.data));
+        }
+      });
+    } else {
+      ClassRoomService.put(requestBody.id, requestBody).then((response) => {
+        if (response.isSuccess) {
+          showModal.value = false;
+          selectedClassRoom.className = form.value.className;
+          selectedClassRoom.departmentName = form.value.departmentName;
+          selectedClassRoom.departmentInitial = form.value.departmentInitial;
+          selectedClassRoom.departmentId = form.value.departmentId;
+          selectedClassRoom.classLeaderId = form.value.classLeaderId;
+          selectedClassRoom.homeRoomTeacherId = form.value.homeRoomTeacherId;
+          ToastService.successToast("Data berhasil diubah");
+          resetForm();
+        } else {
+          ToastService.dangerToast(Helper.readDetailError(response.data));
+        }
+      });
+    }
+
+
   } catch (error) {
     console.error(
       "Error adding classroom:",
@@ -73,6 +95,7 @@ const addClassroom = async () => {
 // Function to reset the form
 const resetForm = () => {
   form.value = {
+    id: 0,
     className: "",
     departmentName: "",
     departmentInitial: "",
@@ -80,16 +103,56 @@ const resetForm = () => {
     homeRoomTeacherName: "",
     name: "string",
     departmentId: 0,
-    classRommLeaderId: 0,
+    classLeaderId: 0,
     homeRoomTeacherId: 0,
   };
 };
 
-function ketuaKelasOnchange(tes){
-  queryx.value=tes.target.value;
+const data = reactive({ ketuaText: '', waliText: '', teachers: [], students: [], departments: [] });
+
+function ketuaKelasOnchange(tes) {
+  data.ketuaText = tes.target.value;
 }
 
-const queryx=ref('')
+function waliKelasOnchange(tes) {
+  data.waliText = tes.target.value;
+}
+
+
+function searchKetua() {
+  StudentService.search(data.ketuaText).then(response => {
+    data.students = response.data.map((item) => {
+      return { id: item.id, name: item.name }
+    });
+  })
+}
+
+function searchWali() {
+  TeacherService.search(data.waliText).then(response => {
+    data.teachers = response.data;
+  })
+}
+
+
+const diSableButton = computed(() => {
+  if (!form.value.className || !form.value.departmentId || !form.value.classLeaderId || !form.value.homeRoomTeacherId) {
+    return true;
+  }
+  return false;
+})
+let selectedClassRoom={};
+const editClassroom = (classRoom) => {
+  selectedClassRoom = classRoom;
+  showModal.value = true;
+  form.value.id = classRoom.id;
+  form.value.className = classRoom.className;
+  form.value.departmentInitial = classRoom.departmentInitial;
+  form.value.departmentId = classRoom.departmentId;
+  form.value.classLeaderName = classRoom.classLeaderName;
+  form.value.homeRoomTeacherName = classRoom.homeRoomTeacherName;
+  form.value.classLeaderId = classRoom.classLeaderId;
+  form.value.homeRoomTeacherId = classRoom.homeRoomTeacherId;
+}
 
 </script>
 
@@ -122,7 +185,7 @@ const queryx=ref('')
               <label class="label">Nama Jurusan</label>
               <select v-model="form.departmentId" class="input input-bordered" required>
                 <option class="text-slate-300">Pilih Ketua Kelas</option>
-                <option value="" v-for="department in data.departments" :value="department.id">
+                <option v-for="department in data.departments" :value="department.id">
                   {{ department.name }}
                 </option>
               </select>
@@ -130,26 +193,18 @@ const queryx=ref('')
 
             <div class="form-control">
               <label class="label">Ketua Kelas</label>
-              <div class="flex">
-                <AutoComplete  :onChange="ketuaKelasOnchange"></AutoComplete>
-                {{ queryx }}
-                <button class="btn" type="button" @click="Search">Cari</button>
-              </div>
-
+              <AutoComplete :service="StudentService" :query="form.classLeaderName" v-model="form.classLeaderId">
+              </AutoComplete>
             </div>
 
             <div class="form-control">
               <label class="label">Wali Kelas</label>
-              <select v-model="form.homeRoomTeacherId" class="input input-bordered" required>
-                <option value="">Pilih Wali Kelas</option>
-                <option value="1">Avif Setyawan</option>
-                <option value="2">Ismael</option>
-                <option value="3">Fidel</option>
-              </select>
+              <AutoComplete :service="TeacherService" :query="form.homeRoomTeacherName"
+                v-model="form.homeRoomTeacherId"></AutoComplete>
             </div>
 
             <div class="modal-action">
-              <button type="submit" class="btn btn-primary">Save</button>
+              <button :disabled="diSableButton" type="submit" class="btn btn-primary">Save</button>
               <button type="button" @click="showModal = false" class="btn">
                 Cancel
               </button>
@@ -182,11 +237,15 @@ const queryx=ref('')
               <td class="px-6 py-4">{{ classroom.classLeaderName }}</td>
               <td class="px-6 py-4">{{ classroom.homeRoomTeacherName }}</td>
               <td class="px-6 py-4 flex gap-2 items-center justify-start">
-                <router-link :to="`/Tahun-ajaran/${classroom.id}/edit`">
-                  <button class="text-black rounded-lg hover:text-slate-500 transition-all duration-200"></button>
-                </router-link>
+                <button @click="editClassroom(classroom)"
+                  class="text-black rounded-lg hover:text-slate-500 transition-all duration-200">
+                  <EditIcon></EditIcon>
+                </button>
                 <button @click="deleteData(classroom.id)"
-                  class="transition-all duration-200 text-red-500 hover:text-red-700 rounded-lg"></button>
+                  class="transition-all duration-200 text-red-500 hover:text-red-700 rounded-lg">
+                  <DeleteIcon></DeleteIcon>
+
+                </button>
               </td>
             </tr>
           </tbody>

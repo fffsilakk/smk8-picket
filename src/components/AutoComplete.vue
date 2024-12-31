@@ -1,10 +1,13 @@
 <template>
   <div class="w-full">
-    <input type="text" class="input input-bordered" v-model="data.query" @input="onInput"
-      placeholder="Type to search..." />
+    <div class="flex">
+      <input type="text" class="input input-bordered" v-model="data.query" @input="onInput"
+        placeholder="Type to search..." />
+      <button class="btn" type="button" @click="search">Cari</button>
+    </div>
     <ul v-if="filteredSuggestions.length">
       <li v-for="(suggestion, index) in filteredSuggestions" :key="index" @click="selectSuggestion(suggestion)">
-        {{ suggestion }}
+        {{ suggestion.name }}
       </li>
     </ul>
   </div>
@@ -12,34 +15,49 @@
 
 <script setup>
 import { computed, reactive } from 'vue';
+import { StudentService } from '../services/StudentService';
 
-const props = {
-  query: String,
-  suggestions: Array,
-}
-const emit = defineEmits(['onChange', 'onSelect'])
+const props = defineProps(['query','service'])
+
+const model = defineModel()
+
+// const emit = defineEmits(['onSelect'])
 const data = reactive({
   query: '',
-  suggestions: ['Apple', 'Banana', 'Orange', 'Grapes', 'Cherry', 'Pineapple'],
+  suggestions: [],
 });
+
+data.query=props.query;
+
 
 const filteredSuggestions = computed(() => {
   if (data.query === '') {
     return [];
   }
   return data.suggestions.filter((suggestion) =>
-    suggestion.toLowerCase().includes(data.query.toLowerCase())
+    suggestion.name.toLowerCase().includes(data.query.toLowerCase())
   );
 
 })
 
 function onInput(x) {
-  console.log( x.target.value);
-  emit('onChange', data.query);
+  console.log(x.target.value);
 }
+
+
+
+function search() {
+ props.service.search(data.query).then(response => {
+    data.suggestions = response.data.map((item) => {
+      return { id: item.id, name: item.name }
+    });
+  })
+}
+
+
 function selectSuggestion(suggestion) {
-  data.query = suggestion;
-  // Clear suggestions after selecting one
+  data.query = suggestion.name;
+  model.value = suggestion.id;
   data.suggestions = [];
 }
 
