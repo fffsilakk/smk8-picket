@@ -8,19 +8,14 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: "/Login",
-    name: "Login",
-    component: () => import("../views/auth/Login.vue"),
+    path: "/login",
+    name: "login",
+    component: () => import("../views/auth/login.vue"),
   },
   {
     path: "/History",
     name: "History",
     component: () => import("../views/history/history.vue"),
-  },
-  {
-    path: "/login",
-    name: "login",
-    component: () => import("../views/auth/Login.vue"),
   },
 
   // routes tahun ajaran
