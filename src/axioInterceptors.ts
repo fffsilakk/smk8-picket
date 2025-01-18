@@ -2,17 +2,20 @@ import axios, { AxiosError, type AxiosResponse } from "axios";
 import { ref } from "vue";
 import { Helper } from "./helper.js"
 import { ToastService } from "./services/ToastService";
-import { useRoute, useRouter } from "vue-router";
 
 const authString = localStorage.getItem("authToken");
 const auth = JSON.parse(authString!);
 axios.defaults.baseURL = Helper.urlApi;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.defaults.headers.common['Authorization'] = auth ? 'Bearer ' + auth.token : '';
-const router = useRouter();
+
 
 const onNotFound = () => {
     ToastService.dangerToast('Alamat URL Tidak Ditemukan.');
+}
+
+const onError = () => {
+    ToastService.dangerToast('Maaf terjadi kesalahan. Coba Uangi lagi/Silahkan Hubungi administrator.');
 }
 
 const isRefreshToken = ref(false);
@@ -39,15 +42,20 @@ axios.interceptors.response.use(function (response,) {
             onNotFound();
             return err;
         }
+        if (axiosResponse.status == 405) {
+            onError();
+            return err;
+        }
 
         if (axiosResponse.status == 503) {
-            ToastService.dangerToast(response.messages.err)
-            router.push(`/error-page${axiosResponse.status}`);
+            onError();
+            // ToastService.dangerToast(response.messages.err);
+            // const router = useRouter();
+            // router.push(`/error-page${axiosResponse.status}`);
             return err;
         }
         if (axiosResponse.status == 500) {
-            ToastService.dangerToast(response.messages.err)
-            router.push(`/error-page${axiosResponse.status}`);
+            onError();
             return err;
         }
 

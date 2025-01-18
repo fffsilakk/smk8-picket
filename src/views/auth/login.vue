@@ -2,6 +2,8 @@
 import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import {Helper} from "../../helper";
+
 
 const username = ref("");
 const password = ref("");
@@ -19,10 +21,13 @@ const login = async () => {
       { headers: { "Content-Type": "application/json" } }
     );
 
-    const token = response.data;
-    console.log(token);
-    console.log(token);
-    localStorage.setItem("authToken", JSON.stringify(token));
+    const auth = response.data;
+    localStorage.setItem("authToken", JSON.stringify(auth));
+    axios.defaults.baseURL = Helper.urlApi;
+    axios.defaults.headers.common["Content-Type"] = "application/json";
+    axios.defaults.headers.common["Authorization"] = auth
+      ? "Bearer " + auth.token
+      : "";
 
     router.push("/");
   } catch (error) {
