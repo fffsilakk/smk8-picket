@@ -40,6 +40,29 @@ export const Helper = {
     return null;
   },
 
+
+getIndonesiaDay: (value) => {
+    switch (value) {
+      case 0:
+        return "Minggu";
+      case 1:
+        return "Senin";
+      case 2:
+        return "Selasa";
+      case 3:
+        return "Rabu";
+      case 4:
+        return "Kamis";
+      case 5:
+        return "Jumat";
+      case 6:
+        return "Sabtu";
+      default:
+        return value;
+    }
+  },
+
+
   formatDate: (date) => {
     var d = new Date(date),
       month = "" + (d.getMonth() + 1),
@@ -49,7 +72,7 @@ export const Helper = {
     if (month.length < 2) month = "0" + month;
     if (day.length < 2) day = "0" + day;
 
-    return [year, month, day].join("-");
+    return [day, month, year].join("-");
   },
 
   getTeacherAvatar: (photo) => {
