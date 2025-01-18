@@ -12,7 +12,10 @@ import { ToastService } from "../../services/ToastService";
 import { Helper } from "../../helper";
 import DeleteIcon from "../../components/Icons/DeleteIcon.vue";
 import EditIcon from "../../components/Icons/EditIcon.vue";
+import LabelError from "../../components/LabelError.vue";
 
+
+const data = reactive({errors:[],  ketuaText: '', waliText: '', teachers: [], students: [], departments: [] });
 
 const classrooms = ref([]);
 const form = ref({
@@ -21,6 +24,7 @@ const form = ref({
   departmentInitial: "",
   classLeaderName: "",
   homeRoomTeacherName: "",
+  level: 1,
   departmentId: 0,
   classLeaderId: 0,
   homeRoomTeacherId: 0,
@@ -48,6 +52,7 @@ const addClassroom = async () => {
     const requestBody = {
       id: form.value.id,
       name: form.value.className,
+      level: form.value.level,
       departmentId: form.value.departmentId,
       classRommLeaderId: form.value.classLeaderId,
       homeRoomTeacherId: form.value.homeRoomTeacherId,
@@ -61,6 +66,7 @@ const addClassroom = async () => {
           resetForm();
           ToastService.successToast("Data berhasil tambahkan");
         } else {
+          data.errors = response.data.errors;
           ToastService.dangerToast(Helper.readDetailError(response.data));
         }
       });
@@ -69,6 +75,7 @@ const addClassroom = async () => {
         if (response.isSuccess) {
           showModal.value = false;
           selectedClassRoom.className = form.value.className;
+          selectedClassRoom.level = form.value.level;
           selectedClassRoom.departmentName = form.value.departmentName;
           selectedClassRoom.departmentInitial = form.value.departmentInitial;
           selectedClassRoom.departmentId = form.value.departmentId;
@@ -77,6 +84,7 @@ const addClassroom = async () => {
           ToastService.successToast("Data berhasil diubah");
           resetForm();
         } else {
+          data.errors = response.data.errors;
           ToastService.dangerToast(Helper.readDetailError(response.data));
         }
       });
@@ -108,8 +116,6 @@ const resetForm = () => {
   };
 };
 
-const data = reactive({ ketuaText: '', waliText: '', teachers: [], students: [], departments: [] });
-
 function ketuaKelasOnchange(tes) {
   data.ketuaText = tes.target.value;
 }
@@ -140,7 +146,7 @@ const diSableButton = computed(() => {
   }
   return false;
 })
-let selectedClassRoom={};
+let selectedClassRoom = {};
 const editClassroom = (classRoom) => {
   selectedClassRoom = classRoom;
   showModal.value = true;
@@ -178,11 +184,12 @@ const editClassroom = (classRoom) => {
               <input v-model="form.className" class="input input-bordered" type="text" required />
             </div>
             <div class="form-control">
-              <label class="label">Inisial Jurusan</label>
-              <input v-model="form.departmentInitial" class="input input-bordered" type="text" required />
+              <label class="label">Tingkat</label>
+              <input v-model="form.level" class="input input-bordered" type="number" min="1" max="3" required />
+              <LabelError v-if="data.errors.length > 0" :errors="data.errors" propName="Level"/>
             </div>
             <div class="form-control">
-              <label class="label">Nama Jurusan</label>
+              <label class="label">Jurusan</label>
               <select v-model="form.departmentId" class="input input-bordered" required>
                 <option class="text-slate-300">Pilih Ketua Kelas</option>
                 <option v-for="department in data.departments" :value="department.id">
@@ -220,22 +227,26 @@ const editClassroom = (classRoom) => {
             <tr>
               <th class="px-6 py-3">No</th>
               <th class="px-6 py-3">Nama Kelas</th>
+              <th class="px-6 py-3">Tingkat</th>
               <th class="px-6 py-3">Nama Jurusan</th>
               <th class="px-6 py-3">Ketua Kelas</th>
               <th class="px-6 py-3">Wali Kelas</th>
+              <th class="px-6 py-3">TA</th>
               <th class="px-6 py-3">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(classroom, index) in classrooms" :key="index"
+            <tr v-for="(classroom, index) in classrooms.sort((a, b) => a.level - b.level)" :key="index"
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="px-6 py-4">{{ index + 1 }}</td>
               <td class="px-6 py-4">
                 {{ classroom.className }}-{{ classroom.departmentInitial }}
               </td>
+              <td class="px-6 py-4">{{ classroom.level }}</td>
               <td class="px-6 py-4">{{ classroom.departmentName }}</td>
               <td class="px-6 py-4">{{ classroom.classLeaderName }}</td>
               <td class="px-6 py-4">{{ classroom.homeRoomTeacherName }}</td>
+              <td class="px-6 py-4">{{ classroom.year }}/{{ classroom.year+1 }}</td>
               <td class="px-6 py-4 flex gap-2 items-center justify-start">
                 <button @click="editClassroom(classroom)"
                   class="text-black rounded-lg hover:text-slate-500 transition-all duration-200">
