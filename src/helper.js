@@ -41,7 +41,7 @@ export const Helper = {
   },
 
 
-getIndonesiaDay: (value) => {
+  getIndonesiaDay: (value) => {
     switch (value) {
       case 0:
         return "Minggu";
@@ -83,4 +83,13 @@ getIndonesiaDay: (value) => {
     if (photo) return `${Helper.url}/photos/student/${photo}`;
     return "/man.png";
   },
+  fileToBase64: (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = error => reject(error);
+    });
+  }
+
 };

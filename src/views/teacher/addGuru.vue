@@ -61,152 +61,138 @@ const resetForm = () => {
 
 <template>
   <AdminPage>
-    <div class="mt-12 pt-10 p-6 md:px-10 sm:px-6 px-4 md:ml-64 sm:ml-64 ml-20">
-      <div class="bg-white shadow-md rounded-lg p-6">
-        <h2 class="text-2xl font-semibold mb-6 text-center text-gray-800">
-          Tambah Guru
-        </h2>
-        <form
-          @submit.prevent="addData"
-          class="grid grid-cols-1 md:grid-cols-2 gap-6"
-        >
-          <div>
-            <label for="number" class="block text-gray-700 font-medium">
-              register Number
-            </label>
-            <input
-              id="number"
-              v-model="data.formData.registerNumber"
-              class="input-field"
-              required
-            />
-            <LabelError
-              v-if="data.errors.length > 0"
-              :errors="data.errors"
-              propName="Description"
-            ></LabelError>
-          </div>
-          <div>
-            <label for="name" class="block text-gray-700 font-medium"
-              >Nama</label
-            >
-            <input
-              id="name"
-              v-model="data.formData.name"
-              type="text"
-              class="input-field"
-              required
-            />
-            <LabelError
-              v-if="data.errors.length > 0"
-              :errors="data.errors"
-              propName="Description"
-            ></LabelError>
-          </div>
-          <div>
-            <label for="gender" class="block text-gray-700 font-medium">
-              Jenis Kelamin
-            </label>
-            <select v-model="data.formData.gender" class="input-field">
-              <option :value="0">Laki-laki</option>
-              <option :value="1">Perempuan</option>
-            </select>
-            <LabelError
-              v-if="data.errors.length > 0"
-              :errors="data.errors"
-              propName="Description"
-            ></LabelError>
-          </div>
-          <div>
-            <label for="placeOfBorn" class="block text-gray-700 font-medium"
-              >Tempat Lahir</label
-            >
-            <input
-              id="placeOfBorn"
-              v-model="data.formData.placeOfBorn"
-              type="text"
-              class="input-field"
-            />
-            <LabelError
-              v-if="data.errors.length > 0"
-              :errors="data.errors"
-              propName="Description"
-            ></LabelError>
-          </div>
-          <div>
-            <label for="dateOfBorn" class="block text-gray-700 font-medium"
-              >Tanggal Lahir</label
-            >
-            <input
-              id="dateOfBorn"
-              v-model="data.formData.dateOfBorn"
-              type="date"
-              class="input-field"
-            />
-            <LabelError
-              v-if="data.errors.length > 0"
-              :errors="data.errors"
-              propName="Description"
-            ></LabelError>
-          </div>
-          <div>
-            <label for="email" class="block text-gray-700 font-medium"
-              >Email</label
-            >
-            <input
-              id="email"
-              v-model="data.formData.email"
-              type="email"
-              class="input-field"
-            />
-            <LabelError
-              v-if="data.errors.length > 0"
-              :errors="data.errors"
-              propName="Description"
-            ></LabelError>
-          </div>
-          <div class="md:col-span-2">
-            <label for="description" class="block text-gray-700 font-medium"
-              >Deskripsi</label
-            >
-            <textarea
-              v-model="data.formData.description"
-              class="input-field"
-              placeholder="Write a comment..."
-              id="description"
-            ></textarea>
-            <LabelError
-              v-if="data.errors.length > 0"
-              :errors="data.errors"
-              propName="Description"
-            ></LabelError>
-          </div>
-          <div>
-            <label for="userId" class="block text-gray-700 font-medium"
-              >User ID</label
-            >
-            <input
-              id="userId"
-              placeholder="Masukan userId"
-              v-model="data.formData.userId"
-              type="text"
-              class="input-field"
-            />
-            <LabelError
-              v-if="data.errors.length > 0"
-              :errors="data.errors"
-              propName="Description"
-            ></LabelError>
-          </div>
-          <div class="md:col-span-2 flex justify-center">
-            <button
-              type="submit"
-              class="bg-emerald-500 text-white px-6 py-2 rounded-lg shadow hover:bg-emerald-600"
-            >
-              Simpan
-            </button>
-          </div>
-        </form>
+    <div>
+
+      <div class="">
+        <div class="bg-white shadow-md rounded-lg p-6">
+          <h1 class="text-2xl font-semibold mb-6 text-left text-gray-800">
+            Tambah Guru
+          </h1>
+          <form
+            @submit.prevent="addData"
+            class="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
+            <div>
+              <label for="number" class="block text-gray-700 font-medium">
+                NIP/Nomor Register
+              </label>
+              <input
+                id="number"
+                v-model="data.formData.registerNumber"
+                class="input-field"
+                required
+              />
+              <LabelError
+                v-if="data.errors.length > 0"
+                :errors="data.errors"
+                propName="Description"
+              ></LabelError>
+            </div>
+            <div>
+              <label for="name" class="block text-gray-700 font-medium"
+                >Nama</label
+              >
+              <input
+                id="name"
+                v-model="data.formData.name"
+                type="text"
+                class="input-field"
+                required
+              />
+              <LabelError
+                v-if="data.errors.length > 0"
+                :errors="data.errors"
+                propName="Description"
+              ></LabelError>
+            </div>
+            <div>
+              <label for="gender" class="block text-gray-700 font-medium">
+                Jenis Kelamin
+              </label>
+              <select v-model="data.formData.gender" class="input-field">
+                <option :value="0">Laki-laki</option>
+                <option :value="1">Perempuan</option>
+              </select>
+              <LabelError
+                v-if="data.errors.length > 0"
+                :errors="data.errors"
+                propName="Description"
+              ></LabelError>
+            </div>
+            <div>
+              <label for="placeOfBorn" class="block text-gray-700 font-medium"
+                >Tempat Lahir</label
+              >
+              <input
+                id="placeOfBorn"
+                v-model="data.formData.placeOfBorn"
+                type="text"
+                class="input-field"
+              />
+              <LabelError
+                v-if="data.errors.length > 0"
+                :errors="data.errors"
+                propName="Description"
+              ></LabelError>
+            </div>
+            <div>
+              <label for="dateOfBorn" class="block text-gray-700 font-medium"
+                >Tanggal Lahir</label
+              >
+              <input
+                id="dateOfBorn"
+                v-model="data.formData.dateOfBorn"
+                type="date"
+                class="input-field"
+              />
+              <LabelError
+                v-if="data.errors.length > 0"
+                :errors="data.errors"
+                propName="Description"
+              ></LabelError>
+            </div>
+            <div>
+              <label for="email" class="block text-gray-700 font-medium"
+                >Email</label
+              >
+              <input
+                id="email"
+                v-model="data.formData.email"
+                type="email"
+                class="input-field"
+              />
+              <LabelError
+                v-if="data.errors.length > 0"
+                :errors="data.errors"
+                propName="Description"
+              ></LabelError>
+            </div>
+            <div class="md:col-span-2">
+              <label for="description" class="block text-gray-700 font-medium"
+                >Deskripsi</label
+              >
+              <textarea
+                v-model="data.formData.description"
+                class="input-field"
+                placeholder="Write a comment..."
+                id="description"
+              ></textarea>
+              <LabelError
+                v-if="data.errors.length > 0"
+                :errors="data.errors"
+                propName="Description"
+              ></LabelError>
+            </div>
+            <div class="md:col-span-2 flex justify-center">
+              <button
+                type="submit"
+                class="bg-emerald-500 text-white px-6 py-2 rounded-lg shadow hover:bg-emerald-600"
+              >
+                Simpan
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </AdminPage>

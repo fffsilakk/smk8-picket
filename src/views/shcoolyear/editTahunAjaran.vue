@@ -43,71 +43,45 @@ const updateSchoolYear = async () => {
 
 <template>
   <admin-page>
-    <div
-      class="mt-12 pt-10 p-6 md:px-10 sm:px-6 px-4 md:ml-64 sm:ml-64 ml-20 flex flex-col"
-    >
-      <h2 class="text-2xl font-semibold mb-6">Edit Tahun Ajaran</h2>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <h2 class="text-2xl font-semibold mb-6">Edit Tahun Ajaran</h2>
 
-      <form @submit.prevent="updateSchoolYear">
-        <!-- Input Tahun -->
-        <div class="mb-5">
-          <label for="yearpicker" class="block mb-2 text-sm font-medium"
-            >Year</label
-          >
-          <input
-            v-model="data.form.year"
-            id="yearpicker"
-            type="number"
-            min="1900"
-            max="2100"
-            step="1"
-            class="bg-gray-50 border text-gray-900 rounded-lg focus:ring focus:border block w-full p-2.5"
-            placeholder="Masukkan Tahun"
-            required
-          />
-        </div>
+        <form @submit.prevent="updateSchoolYear">
+          <!-- Input Tahun -->
+          <div class="mb-5">
+            <label for="yearpicker" class="block mb-2 text-sm font-medium">Year</label>
+            <input v-model="data.form.year" id="yearpicker" type="number" min="1900" max="2100" step="1"
+              class="bg-gray-50 border text-gray-900 rounded-lg focus:ring focus:border block w-full p-2.5"
+              placeholder="Masukkan Tahun" required />
+          </div>
 
-        <!-- Input Semester -->
-        <div class="mb-5">
-          <label for="semester" class="block text-sm font-medium"
-            >Semester</label
-          >
-          <input
-            v-model="data.form.semester"
-            id="semester"
-            type="number"
-            min="1"
-            max="2"
-            class="bg-gray-50 border text-gray-900 rounded-lg focus:ring focus:border block w-full p-2.5"
-            placeholder="Masukkan Semester (1 atau 2)"
-            required
-          />
-        </div>
+          <!-- Input Semester -->
+          <div class="mb-5">
+            <label for="semester" class="block text-sm font-medium">Semester</label>
+            <input v-model="data.form.semester" id="semester" type="number" min="1" max="2"
+              class="bg-gray-50 border text-gray-900 rounded-lg focus:ring focus:border block w-full p-2.5"
+              placeholder="Masukkan Semester (1 atau 2)" required />
+          </div>
 
-        <!-- Status Aktif -->
-        <div class="mb-5">
-          <label for="active" class="block mb-2 text-sm font-medium"
-            >Active</label
-          >
-          <select
-            v-model="data.form.actived"
-            id="active"
-            class="bg-gray-50 border text-gray-900 rounded-lg focus:ring focus:border block w-full p-2.5"
-            required
-          >
-            <option :value="true">True</option>
-            <option :value="false">False</option>
-          </select>
-        </div>
+          <!-- Status Aktif -->
+          <div class="mb-5">
+            <label for="active" class="block mb-2 text-sm font-medium">Active</label>
+            <select v-model="data.form.actived" id="active"
+              class="bg-gray-50 border text-gray-900 rounded-lg focus:ring focus:border block w-full p-2.5" required>
+              <option :value="true">True</option>
+              <option :value="false">False</option>
+            </select>
+          </div>
 
-        <!-- Tombol Update -->
-        <button
-          type="submit"
-          class="flex justify-center items-center m-auto w-full text-white bg-green-700 hover:bg-green-800 focus:ring focus:ring-green-300 rounded-lg px-5 py-2.5"
-        >
-          Simpan Perubahan
-        </button>
-      </form>
+          <!-- Tombol Update -->
+          <button type="submit"
+            class="flex justify-center items-center m-auto w-full text-white bg-green-700 hover:bg-green-800 focus:ring focus:ring-green-300 rounded-lg px-5 py-2.5">
+            Simpan Perubahan
+          </button>
+        </form>
+
+      </div>
     </div>
   </admin-page>
 </template>
