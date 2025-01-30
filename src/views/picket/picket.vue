@@ -80,7 +80,8 @@ const goToPage = (page) => {
 
 <template>
   <AdminPage>
-    <div class="mt-12 pt-10 p-6 md:px-10 sm:px-6 px-4 md:ml-64 sm:ml-64 flex flex-col">
+    <div class="">
+      <h2 class="text-2xl font-semibold mb-6">Data Piket</h2>
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-1">
         <div class="my-2 flex sm:flex-row flex-col items-center sm:justify-between">
           <select v-model="data.paginate.pageSize" @change="changePageSize">

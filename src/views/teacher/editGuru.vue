@@ -41,7 +41,7 @@ const updateTeacher = async () => {
     const response = await TeacherService.put(teacherId, data.form);
     if (response.isSuccess) {
       ToastService.successToast("Data berhasil disimpan.");
-      router.push({ path: "/Guru" }); 
+      router.push({ path: "/Guru" });
     } else {
       console.log("API Error Response:", response.errors);
       data.errors = response.errors;
@@ -52,26 +52,18 @@ const updateTeacher = async () => {
   }
 };
 
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = error => reject(error);
-  });
-}
 
 
 const changePhoto = async () => {
   var fileInput = document.getElementById("file");
   fileInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
-    fileToBase64(file).then( async (base64) => {
+    Helper.fileToBase64(file).then(async (base64) => {
       imageSrc.value = 'data:image/png;base64,' + base64;
       var response = await TeacherService.updateFoto(data.form.id, base64);
-      if(response.isSuccess){
+      if (response.isSuccess) {
         ToastService.successToast("Photo berhasil diganti !")
-      }else{
+      } else {
         ToastService.dangerToast(response.data.detail);
       }
     });
@@ -82,8 +74,8 @@ const changePhoto = async () => {
 
 <template>
   <AdminPage>
-    <div class="mt-12 pt-10 p-6 md:px-10 sm:px-6 px-4 md:ml-64 sm:ml-64 ml-20 flex flex-col">
-      <h2 class="text-xl font-semibold mb-5">Edit Data Guru</h2>
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <h1 class="text-xl font-semibold mb-5">Edit Data Guru</h1>
 
       <div class="w-full flex justify-center mb-6">
         <input type="file" name="file" id="file" hidden>

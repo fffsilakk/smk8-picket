@@ -13,9 +13,10 @@ import { Helper } from "../../helper";
 import DeleteIcon from "../../components/Icons/DeleteIcon.vue";
 import EditIcon from "../../components/Icons/EditIcon.vue";
 import LabelError from "../../components/LabelError.vue";
+import AddIcon from "../../components/Icons/AddIcon.vue";
 
 
-const data = reactive({errors:[],  ketuaText: '', waliText: '', teachers: [], students: [], departments: [] });
+const data = reactive({ errors: [], ketuaText: '', waliText: '', teachers: [], students: [], departments: [] });
 
 const classrooms = ref([]);
 const form = ref({
@@ -164,15 +165,15 @@ const editClassroom = (classRoom) => {
 
 <template>
   <AdminPage>
-    <div class="mt-12 pt-10 p-6 md:px-10 sm:px-6 px-4 md:ml-64 sm:ml-64 flex flex-col">
-      <button @click="showModal = true" class="transition rounded text-black my-3 w-6 items-center text-center">
-        <svg class="w-8 h-8 dark:text-white ml-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-          viewBox="0 0 24 24">
-          <path fill-rule="evenodd"
-            d="M9 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4H7Zm8-1a1 1 0 0 1 1-1h1v-1a1 1 0 1 1 2 0v1h1a1 1 0 1 1 0 2h-1v1a1 1 0 1 1-2 0v-1h-1a1 1 0 0 1-1-1Z"
-            clip-rule="evenodd" />
-        </svg>
-      </button>
+    <div class="">
+
+
+      <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-semibold">Data Kelas</h1>
+        <button @click="showModal = true" class="transition rounded text-black my-3 w-6 items-center text-center">
+          <AddIcon />
+        </button>
+      </div>
 
       <!-- Modal -->
       <div v-if="showModal" class="modal modal-open">
@@ -186,7 +187,7 @@ const editClassroom = (classRoom) => {
             <div class="form-control">
               <label class="label">Tingkat</label>
               <input v-model="form.level" class="input input-bordered" type="number" min="1" max="3" required />
-              <LabelError v-if="data.errors.length > 0" :errors="data.errors" propName="Level"/>
+              <LabelError v-if="data.errors.length > 0" :errors="data.errors" propName="Level" />
             </div>
             <div class="form-control">
               <label class="label">Jurusan</label>
@@ -246,7 +247,7 @@ const editClassroom = (classRoom) => {
               <td class="px-6 py-4">{{ classroom.departmentName }}</td>
               <td class="px-6 py-4">{{ classroom.classLeaderName }}</td>
               <td class="px-6 py-4">{{ classroom.homeRoomTeacherName }}</td>
-              <td class="px-6 py-4">{{ classroom.year }}/{{ classroom.year+1 }}</td>
+              <td class="px-6 py-4">{{ classroom.year }}/{{ classroom.year + 1 }}</td>
               <td class="px-6 py-4 flex gap-2 items-center justify-start">
                 <button @click="editClassroom(classroom)"
                   class="text-black rounded-lg hover:text-slate-500 transition-all duration-200">

@@ -28,4 +28,8 @@ export const StudentService = {
     let response = await axios.get(`${controller}/${id}`);
     return Helper.getResult(response);
   },
+  updateFoto: async (id, data) => {
+    let response = await axios.put(`${controller}/photo/${id}`, data);
+    return Helper.getResult(response);
+  },
 };
