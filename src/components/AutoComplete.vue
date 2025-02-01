@@ -2,7 +2,7 @@
   <div class="w-full">
     <div class="flex">
       <input type="text" class="input input-bordered" v-model="data.query" @input="onInput"
-        placeholder="Type to search..." />
+        placeholder="Cari..." />
       <button class="btn" type="button" @click="search">Cari</button>
     </div>
     <ul v-if="filteredSuggestions.length">
@@ -49,7 +49,7 @@ function onInput(x) {
 function search() {
  props.service.search(data.query).then(response => {
     data.suggestions = response.data.map((item) => {
-      return { id: item.id, name: item.name }
+      return { id: item.id, name: item.name, data: item }
     });
   })
 }
@@ -57,7 +57,7 @@ function search() {
 
 function selectSuggestion(suggestion) {
   data.query = suggestion.name;
-  model.value = suggestion.id;
+  model.value = suggestion;
   data.suggestions = [];
 }
 

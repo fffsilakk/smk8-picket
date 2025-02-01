@@ -93,16 +93,7 @@ const routes = [
     component: () => import("../views/schedule/jadwal.vue"),
   },
 
-  // {
-  //   path: "/Guru/:id/edit",
-  //   name: "editGuru",
-  //   component: () => import("../views/teacher/editGuru.vue"),
-  // },
-  // {
-  //   path: "/Jadwal/Guruadd",
-  //   name: "addJadwalGuru",
-  //   component: () => import("../views/schedule/addJadwalGuru.vue"),
-  // },
+  
 
   // routes Picket
   {
@@ -110,33 +101,26 @@ const routes = [
     name: "Picket",
     component: () => import("../views/picket/picket.vue"),
   },
-  // {
-  //   path: "/Guru/add",
-  //   name: "addGuru",
-  //   component: () => import("../views/teacher/addGuru.vue"),
-  // },
-  // {
-  //   path: "/Guru/:id/edit",
-  //   name: "editGuru",
-  //   component: () => import("../views/teacher/editGuru.vue"),
-  // },
+ 
 
   // routes Classrom
   {
-    path: "/Classrom",
-    name: "Classrom",
-    component: () => import("../views/classrom/classrom.vue"),
+    path: "/Classroom",
+    name: "classroom",
+    component: () => import("../views/classroom/classroom.vue"),
   },
-  // {
-  //   path: "/Guru/add",
-  //   name: "addGuru",
-  //   component: () => import("../views/teacher/addGuru.vue"),
-  // },
-  // {
-  //   path: "/Guru/:id/edit",
-  //   name: "editGuru",
-  //   component: () => import("../views/teacher/editGuru.vue"),
-  // },
+  {
+    path: "/classroom/:id",
+    name: "classroomdetail",
+    component: () => import("../views/classroom/classroomdetail.vue"),
+  },
+  {
+    path: "/classroom/absen/:id",
+    name: "classroomabsen",
+    component: () => import("../views/classroom/classroomabsen.vue"),
+  },
+  
+ 
 ];
 
 const router = createRouter({
