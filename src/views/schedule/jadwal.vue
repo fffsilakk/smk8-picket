@@ -7,7 +7,7 @@ import { TeacherService } from "../../services/TeacherService";
 import { ToastService } from "../../services/ToastService";
 import { DialogService } from "../../services/DialogService";
 
-import AdminPage from "../../components/AdminPage.vue";
+import AdminPage from "@/components/AdminPage.vue";
 import { Helper } from "../../helper";
 
 const route = useRoute();

@@ -1,12 +1,12 @@
 <script setup>
 import axios from "axios";
 import { useRouter } from "vue-router";
-import AdminPage from "../../components/AdminPage.vue";
+import AdminPage from "@/components/AdminPage.vue";
 import { reactive } from "vue";
 import { DepartmentService } from "../../services/DepartmentService";
 import { ToastService } from "../../services/ToastService";
 import { Helper } from "../../helper";
-import LabelError from "../../components/LabelError.vue";
+import LabelError from "@/components/LabelError.vue";
 
 const router = useRouter();
 
