@@ -118,7 +118,7 @@ onMounted(getData);
               </td>
               <td class="px-6 py-4">{{ teacher.registerNumber }}</td>
               <td class="px-6 py-4">
-                {{ teacher.gender === 1 ? "Laki-laki" : "Perempuan" }}
+                {{ teacher.gender === 0 ? "Laki-laki" : "Perempuan" }}
               </td>
               <td class="px-6 py-4">{{ teacher.placeOfBorn }}, {{ !teacher.dateOfBorn ? "" :
                 Helper.formatDate(teacher.dateOfBorn) }}</td>

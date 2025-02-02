@@ -150,7 +150,7 @@ onMounted(()=>{
               </td>
               <td class="px-6 py-4">{{ student.nis }}</td>
               <td class="px-6 py-4">
-                {{ student.gender === 1 ? "Laki-laki" : "Perempuan" }}
+                {{ student.gender === 0 ? "Laki-laki" : "Perempuan" }}
               </td>
               <td class="px-6 py-4">{{ student.placeOfBorn }}, {{ !student.dateOfBorn ? "" :
                 Helper.formatDate(student.dateOfBorn) }}</td>
