@@ -10,9 +10,9 @@ let year = ref(new Date().getFullYear())
   <AdminPage>
     <div class="h-screen flex justify-center flex-col items-center">
       <img class="m-12" width="15%" src="../../../public/smk.png" alt="">
-      <p class="text-lg">SELAMAT DATANG DI SMKN 8 TIK KOTA JAYAPURA</p>
-      <p class="text-lg">KOTA JAYAPURA</p>
-      <p class="text-lg">{{ year }}</p>
+      <p class="text-lg dark:text-white">SELAMAT DATANG DI SMKN 8 TIK KOTA JAYAPURA</p>
+      <p class="text-lg dark:text-white">KOTA JAYAPURA</p>
+      <p class="text-lg dark:text-white">{{ year }}</p>
     </div>
   </AdminPage>
 </template>
