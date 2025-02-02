@@ -1,5 +1,5 @@
 <script setup>
-import AdminPage from '../../components/AdminPage.vue'
+import AdminPage from '@/components/AdminPage.vue'
 import { ref } from 'vue'
 
 let year = ref(new Date().getFullYear())

@@ -2,19 +2,19 @@
 import { ref, onMounted, reactive, computed } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
-import AdminPage from '../../components/AdminPage.vue'
+import AdminPage from '@/components/AdminPage.vue'
 import { ClassRoomService } from '../../services/ClassRoomService'
 import { DepartmentService } from '../../services/DepartmentService'
 import { StudentService } from '../../services/StudentService'
 import { TeacherService } from '../../services/TeacherService'
-import AutoComplete from "../../components/AutoComplete.vue";
+import AutoComplete from "@/components/AutoComplete.vue";
 import { ToastService } from "../../services/ToastService";
 import { Helper } from "../../helper";
-import DeleteIcon from "../../components/Icons/DeleteIcon.vue";
-import EditIcon from "../../components/Icons/EditIcon.vue";
-import LabelError from "../../components/LabelError.vue";
-import AddIcon from "../../components/Icons/AddIcon.vue";
-import DetailIcon from "../../components/Icons/DetailIcon.vue";
+import DeleteIcon from "@/components/Icons/DeleteIcon.vue";
+import EditIcon from "@/components/Icons/EditIcon.vue";
+import LabelError from "@/components/LabelError.vue";
+import AddIcon from "@/components/Icons/AddIcon.vue";
+import DetailIcon from "@/components/Icons/DetailIcon.vue";
 
 
 const data = reactive({ errors: [], ketuaText: '', waliText: '', teachers: [], students: [], departments: [] });

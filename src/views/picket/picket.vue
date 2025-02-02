@@ -1,6 +1,6 @@
 <script setup>
 import { computed, reactive, ref } from "vue";
-import AdminPage from "../../components/AdminPage.vue";
+import AdminPage from "@/components/AdminPage.vue";
 import { PicketService } from "../../services/PicketService";
 import { Helper } from "../../helper";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/20/solid";

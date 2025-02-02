@@ -2,14 +2,14 @@
 import { ref, onMounted, reactive } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
-import AdminPage from "../../components/AdminPage.vue";
+import AdminPage from "@/components/AdminPage.vue";
 import { TeacherService } from "../../services/TeacherService";
 import { ToastService } from "../../services/ToastService";
 import { DialogService } from "../../services/DialogService";
 import { Helper } from "../../helper";
-import EditIcon from "../../components/icons/EditIcon.vue";
-import DeleteIcon from "../../components/icons/DeleteIcon.vue";
-import AddIcon from "../../components/Icons/AddIcon.vue";
+import EditIcon from "@/components/icons/EditIcon.vue";
+import DeleteIcon from "@/components/icons/DeleteIcon.vue";
+import AddIcon from "@/components/Icons/AddIcon.vue";
 
 
 const router = useRouter();

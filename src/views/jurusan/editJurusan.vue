@@ -2,7 +2,7 @@
 import { ref, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { DepartmentService } from "../../services/DepartmentService";
-import AdminPage from "../../components/AdminPage.vue";
+import AdminPage from "@/components/AdminPage.vue";
 import { ToastService } from "../../services/ToastService";
 
 const data = reactive({ form: { name: "", initial: "", description: "" } });

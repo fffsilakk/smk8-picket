@@ -2,7 +2,7 @@
 import { ref, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { StudentService } from "../../services/StudentService";
-import AdminPage from "../../components/AdminPage.vue";
+import AdminPage from "@/components/AdminPage.vue";
 import { ToastService } from "../../services/ToastService";
 import { Helper } from "../../helper";
 

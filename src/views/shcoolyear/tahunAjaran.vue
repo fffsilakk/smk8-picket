@@ -2,7 +2,7 @@
 import { ref, onMounted, reactive } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
-import AdminPage from "../../components/AdminPage.vue";
+import AdminPage from "@/components/AdminPage.vue";
 import { SchoolYearService } from "../../services/SchoolYearService";
 import { ToastService } from "../../services/ToastService";
 import { DialogService } from "../../services/DialogService";

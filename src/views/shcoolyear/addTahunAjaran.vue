@@ -51,8 +51,8 @@ import { ToastService } from "../../services/ToastService";
 import { SchoolYearService } from "../../services/SchoolYearService";
 import { Helper } from "../../helper";
 import { reactive } from 'vue';
-import LabelError from "../../components/LabelError.vue";
-import AdminPage from "../../components/AdminPage.vue";
+import LabelError from "@/components/LabelError.vue";
+import AdminPage from "@/components/AdminPage.vue";
 
 const router = useRouter(); // Gunakan router instance
 const data = reactive({

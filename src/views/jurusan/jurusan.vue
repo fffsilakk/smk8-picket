@@ -1,10 +1,10 @@
 <script setup>
 import { ref, onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
-import AdminPage from "../../components/AdminPage.vue";
+import AdminPage from "@/components/AdminPage.vue";
 import { DepartmentService } from "../../services/DepartmentService";
 import { ToastService } from "../../services/ToastService";
-// import ConfirmDeleteModal from "../../components/ConfirmDeleteModal.vue";
+// import ConfirmDeleteModal from "@/components/ConfirmDeleteModal.vue";
 import { DialogService } from "../../services/DialogService";
 import DeleteIcon from "@/components/icons/DeleteIcon.vue";
 import AddIcon from "@/components/Icons/AddIcon.vue";
