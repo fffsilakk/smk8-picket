@@ -7,9 +7,9 @@ import { TeacherService } from "../../services/TeacherService";
 import { ToastService } from "../../services/ToastService";
 import { DialogService } from "../../services/DialogService";
 import { Helper } from "../../helper";
-import EditIcon from "@/components/icons/EditIcon.vue";
-import DeleteIcon from "@/components/icons/DeleteIcon.vue";
-import AddIcon from "@/components/Icons/AddIcon.vue";
+import EditIcon from "@/components/customeicons/EditIcon.vue";
+import DeleteIcon from "@/components/customeicons/DeleteIcon.vue";
+import AddIcon from "@/components/customeicons/AddIcon.vue";
 
 
 const router = useRouter();

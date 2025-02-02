@@ -6,9 +6,9 @@ import AdminPage from "@/components/AdminPage.vue";
 import { SchoolYearService } from "../../services/SchoolYearService";
 import { ToastService } from "../../services/ToastService";
 import { DialogService } from "../../services/DialogService";
-import DeleteIcon from "@/components/icons/DeleteIcon.vue";
-import EditIcon from "@/components/icons/EditIcon.vue";
-import AddIcon from "@/components/Icons/AddIcon.vue";
+import DeleteIcon from "@/components/customeicons/DeleteIcon.vue";
+import EditIcon from "@/components/customeicons/EditIcon.vue";
+import AddIcon from "@/components/customeicons/AddIcon.vue";
 const router = useRouter();
 const data = reactive({
   schoolYears: [],
