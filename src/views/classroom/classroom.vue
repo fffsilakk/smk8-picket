@@ -16,7 +16,6 @@ import LabelError from "@/components/LabelError.vue";
 import AddIcon from "@/components/Icons/AddIcon.vue";
 import DetailIcon from "@/components/Icons/DetailIcon.vue";
 
-
 const data = reactive({ errors: [], ketuaText: '', waliText: '', teachers: [], students: [], departments: [] });
 
 const classrooms = ref([]);
