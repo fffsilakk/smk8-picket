@@ -38,6 +38,7 @@ try {
 
 const updateTeacher = async () => {
   try {
+    data.form.gender = parseInt(data.form.gender);
     const response = await TeacherService.put(teacherId, data.form);
     if (response.isSuccess) {
       ToastService.successToast("Data berhasil disimpan.");
@@ -99,8 +100,8 @@ const changePhoto = async () => {
             <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis
               Kelamin</label>
             <select id="gender" v-model="data.form.gender" class="input-field" required>
-              <option value="1">Perempuan</option>
-              <option value="0">Laki-laki</option>
+              <option value=1>Perempuan</option>
+              <option value=0>Laki-laki</option>
             </select>
           </div>
 
