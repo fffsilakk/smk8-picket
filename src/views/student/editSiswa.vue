@@ -38,6 +38,7 @@ try {
 // Fungsi untuk memperbarui siswa
 const updateStudent = async () => {
   try {
+    data.form.gender = parseInt(data.form.gender);
     const response = await StudentService.put(studentId, data.form);
     if (response.isSuccess) {
       ToastService.successToast("Data berhasil disimpan.");
