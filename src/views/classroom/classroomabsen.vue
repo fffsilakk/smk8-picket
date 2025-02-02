@@ -10,11 +10,11 @@ import { TeacherService } from '../../services/TeacherService'
 import AutoComplete from "../../components/AutoComplete.vue";
 import { ToastService } from "../../services/ToastService";
 import { Helper } from "../../helper";
-import DeleteIcon from "../../components/Icons/DeleteIcon.vue";
-import EditIcon from "../../components/Icons/EditIcon.vue";
-import LabelError from "../../components/LabelError.vue";
-import AddIcon from "../../components/Icons/AddIcon.vue";
-import DetailIcon from "../../components/Icons/DetailIcon.vue";
+import LabelError from "@/components/LabelError.vue";
+import DeleteIcon from "@/components/Icons/DeleteIcon.vue";
+import EditIcon from "@/components/Icons/EditIcon.vue";
+import AddIcon from "@/components/Icons/AddIcon.vue";
+import DetailIcon from "@/components/Icons/DetailIcon.vue";
 import { DialogService } from "../../services/DialogService";
 
 

@@ -6,8 +6,8 @@ import { DepartmentService } from "../../services/DepartmentService";
 import { ToastService } from "../../services/ToastService";
 // import ConfirmDeleteModal from "../../components/ConfirmDeleteModal.vue";
 import { DialogService } from "../../services/DialogService";
-import DeleteIcon from "../../components/icons/DeleteIcon.vue";
-import AddIcon from "../../components/Icons/AddIcon.vue";
+import DeleteIcon from "@/components/icons/DeleteIcon.vue";
+import AddIcon from "@/components/Icons/AddIcon.vue";
 import EditIcon from "@/components/Icons/EditIcon.vue";
 const router = useRouter();
 
