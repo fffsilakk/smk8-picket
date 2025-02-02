@@ -72,6 +72,11 @@ const goToPage = (page) => {
   getData(data.paginate);
 }
 
+const searchText = ($event) => {
+ data.paginate.searchTerm = $event.target.value;
+  getData(data.paginate);
+}
+
 
 
 
@@ -89,7 +94,7 @@ const goToPage = (page) => {
               {{ item }}
             </option>
           </select>
-          <input v-model="data.paginate.searchTerm" type="text" placeholder="Search..." @change="getData(data.paginate)"
+          <input v-model="data.paginate.searchTerm" type="text" placeholder="Search..." @change="searchText"
             class="p-2 border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700" />
         </div>
 

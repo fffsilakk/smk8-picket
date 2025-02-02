@@ -16,6 +16,10 @@ export const ClassRoomService = {
         var response = await axios.post(`${controller}`, model);
         return Helper.getResult(response);
     },
+    addStudentToClass: async (classroomId, model) => {
+        var response = await axios.post(`${controller}/addstudent/${classroomId}`, model);
+        return Helper.getResult(response);
+    },
     put: async (id, model) => {
         var response = await axios.put(`${controller}/${id}`, model);
         return Helper.getResult(response);
@@ -23,5 +27,10 @@ export const ClassRoomService = {
     delete: async (id) => {
         var response = await axios.delete(`${controller}/${id}`);
         return Helper.getResult(response);
-    }
+    },
+    removeStudent: async (classroomId, studentId) => {
+        var response = await axios.delete(`${controller}/removestudent/${classroomId}/${studentId}`);
+        return Helper.getResult(response);
+    },
+
 }

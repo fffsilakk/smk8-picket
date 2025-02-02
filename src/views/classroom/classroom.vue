@@ -14,6 +14,7 @@ import DeleteIcon from "../../components/Icons/DeleteIcon.vue";
 import EditIcon from "../../components/Icons/EditIcon.vue";
 import LabelError from "../../components/LabelError.vue";
 import AddIcon from "../../components/Icons/AddIcon.vue";
+import DetailIcon from "../../components/Icons/DetailIcon.vue";
 
 
 const data = reactive({ errors: [], ketuaText: '', waliText: '', teachers: [], students: [], departments: [] });
@@ -27,8 +28,8 @@ const form = ref({
   homeRoomTeacherName: "",
   level: 1,
   departmentId: 0,
-  classLeaderId: 0,
-  homeRoomTeacherId: 0,
+  classLeader: {},
+  homeRoomTeacher: {},
 });
 const showModal = ref(false);
 const router = useRouter();
@@ -55,8 +56,8 @@ const addClassroom = async () => {
       name: form.value.className,
       level: form.value.level,
       departmentId: form.value.departmentId,
-      classRommLeaderId: form.value.classLeaderId,
-      homeRoomTeacherId: form.value.homeRoomTeacherId,
+      ClassRommLeaderId: form.value.classLeader.id,
+      homeRoomTeacherId: form.value.homeRoomTeacher.id,
     };
 
     if (!form.value.id) {
@@ -80,8 +81,8 @@ const addClassroom = async () => {
           selectedClassRoom.departmentName = form.value.departmentName;
           selectedClassRoom.departmentInitial = form.value.departmentInitial;
           selectedClassRoom.departmentId = form.value.departmentId;
-          selectedClassRoom.classLeaderId = form.value.classLeaderId;
-          selectedClassRoom.homeRoomTeacherId = form.value.homeRoomTeacherId;
+          selectedClassRoom.classLeaderId = form.value.classLeader.id;
+          selectedClassRoom.homeRoomTeacherId = form.value.homeRoomTeacher.id;
           ToastService.successToast("Data berhasil diubah");
           resetForm();
         } else {
@@ -112,8 +113,8 @@ const resetForm = () => {
     homeRoomTeacherName: "",
     name: "string",
     departmentId: 0,
-    classLeaderId: 0,
-    homeRoomTeacherId: 0,
+    classLeader: {},
+    homeRoomTeacher: {}
   };
 };
 
@@ -142,7 +143,7 @@ function searchWali() {
 
 
 const diSableButton = computed(() => {
-  if (!form.value.className || !form.value.departmentId || !form.value.classLeaderId || !form.value.homeRoomTeacherId) {
+  if (!form.value.className || !form.value.departmentId || !form.value.classLeader.id || !form.value.homeRoomTeacher.id) {
     return true;
   }
   return false;
@@ -201,14 +202,14 @@ const editClassroom = (classRoom) => {
 
             <div class="form-control">
               <label class="label">Ketua Kelas</label>
-              <AutoComplete :service="StudentService" :query="form.classLeaderName" v-model="form.classLeaderId">
+              <AutoComplete :service="StudentService" :query="form.classLeaderName" v-model="form.classLeader">
               </AutoComplete>
             </div>
 
             <div class="form-control">
               <label class="label">Wali Kelas</label>
-              <AutoComplete :service="TeacherService" :query="form.homeRoomTeacherName"
-                v-model="form.homeRoomTeacherId"></AutoComplete>
+              <AutoComplete :service="TeacherService" :query="form.homeRoomTeacherName" v-model="form.homeRoomTeacher">
+              </AutoComplete>
             </div>
 
             <div class="modal-action">
@@ -256,8 +257,13 @@ const editClassroom = (classRoom) => {
                 <button @click="deleteData(classroom.id)"
                   class="transition-all duration-200 text-red-500 hover:text-red-700 rounded-lg">
                   <DeleteIcon></DeleteIcon>
-
                 </button>
+                <router-link :to="`/classroom/${classroom.id}`">
+                  <DetailIcon />
+                </router-link>
+                <router-link :to="`/classroom/absen/${classroom.id}`">
+                  <DetailIcon />
+                </router-link>
               </td>
             </tr>
           </tbody>

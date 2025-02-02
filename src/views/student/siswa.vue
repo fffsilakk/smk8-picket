@@ -10,9 +10,25 @@ import { Helper } from "../../helper";
 import AddIcon from "../../components/Icons/AddIcon.vue";
 import EditIcon from "../../components/icons/EditIcon.vue";
 import DeleteIcon from "../../components/icons/DeleteIcon.vue";
+import Pagination from "../../components/Pagination.vue";
+import { paginationState } from "../../services/pagination";
 
 const router = useRouter();
+const paginateState = paginationState();
+
 const data = reactive({
+  pageSizes: [5, 10, 50, 100],
+  paginate: {
+    page: 1,
+    pageSize: 10,
+    searchTerm: "",
+    sortOrder: "desc",
+    columnOrder: "date",
+  },
+});
+
+
+const dataxx = reactive({
   students: [],
   form: {
     nis: null,
@@ -28,14 +44,11 @@ const data = reactive({
 });
 
 // Fungsi untuk mengambil data siswa (GET)
-const getData = async () => {
-  try {
-    const response = await StudentService.get();
-    if (response.isSuccess) {
-      data.students = response.data;
-    }
-  } catch (error) {
-    console.error("Error fetching data:", error.message);
+const getData = async (paginate) => {
+  const result = await StudentService.Pageninate(paginate);
+  if (result.isSuccess) {
+    data.paginateResult = result.data;
+    paginateState.setPaginateResult(result.data);
   }
 };
 
@@ -80,7 +93,16 @@ const confirmDelete = (student) => {
   });
 };
 
-onMounted(getData);
+const changePageSize = (event) => {
+  paginateState.setPaginateResult({paginateResult:{data:[]}});
+  data.paginate.page = 1;
+  getData(data.paginate);
+
+};
+onMounted(()=>{
+  paginateState.setPaginateResult({paginateResult:{data:[]}});
+  getData(data.paginate)
+});
 </script>
 
 <template>
@@ -97,12 +119,21 @@ onMounted(getData);
 
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-1">
+        <div class="my-2 flex sm:flex-row flex-col items-center sm:justify-between">
+          <select v-model="data.paginate.pageSize" @change="changePageSize">
+            <option v-for="item in data.pageSizes" :value="item">
+              {{ item }}
+            </option>
+          </select>
+          <input v-model="data.paginate.searchTerm" type="text" placeholder="Search..." @change="getData(data.paginate)"
+            class="p-2 border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700" />
+        </div>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th class="px-6 py-3">NO</th>
-              <th class="px-6 py-3">Nis</th>
               <th class="px-6 py-3">Nama</th>
+                <th class="px-6 py-3">Nis</th>
               <th class="px-6 py-3">Kelamin</th>
               <th class="px-6 py-3">TTL</th>
               <th class="px-6 py-3">Email</th>
@@ -110,7 +141,7 @@ onMounted(getData);
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(student, index) in data.students" :key="index"
+             <tr v-for="(student, index) in paginateState.paginateResult.data" :key="index"
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="px-6 py-4">{{ index + 1 }}</td>
               <td class="flex justify-start items-center px-6 py-4">
@@ -136,6 +167,7 @@ onMounted(getData);
             </tr>
           </tbody>
         </table>
+        <Pagination v-if="paginateState.paginateResult" :paginate="data.paginate" @onChangePage="getData"></Pagination>
       </div>
     </div>
   </AdminPage>

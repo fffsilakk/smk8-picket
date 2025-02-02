@@ -8,6 +8,10 @@ export const StudentService = {
     let response = await axios.get(`${controller}`);
     return Helper.getResult(response);
   },
+  Pageninate: async (model) => {
+    let response = await axios.post(`${controller}/paginate`,model);
+    return Helper.getResult(response);
+  },
   search: async (keyword) => {
     let response = await axios.get(`${controller}/search/${keyword}`);
     return Helper.getResult(response);
