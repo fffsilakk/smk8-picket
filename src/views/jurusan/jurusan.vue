@@ -8,7 +8,7 @@ import { ToastService } from "../../services/ToastService";
 import { DialogService } from "../../services/DialogService";
 import DeleteIcon from "../../components/icons/DeleteIcon.vue";
 import AddIcon from "../../components/Icons/AddIcon.vue";
-import EditIcon from "../../components/Icons/EditIcon.vue";
+import EditIcon from "@/components/Icons/EditIcon.vue";
 const router = useRouter();
 
 const data = reactive({
