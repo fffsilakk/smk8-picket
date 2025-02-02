@@ -6,9 +6,9 @@ import { DepartmentService } from "../../services/DepartmentService";
 import { ToastService } from "../../services/ToastService";
 // import ConfirmDeleteModal from "../../components/ConfirmDeleteModal.vue";
 import { DialogService } from "../../services/DialogService";
-import EditIcon from "../../components/icons/EditIcon.vue";
 import DeleteIcon from "../../components/icons/DeleteIcon.vue";
 import AddIcon from "../../components/Icons/AddIcon.vue";
+import EditIcon from "../../components/Icons/EditIcon.vue";
 const router = useRouter();
 
 const data = reactive({
@@ -92,7 +92,7 @@ onMounted(getData);
               <td class="px-6 py-4 flex gap-2">
                 <router-link :to="`/Jurusan/${department.id}/edit`">
                   <button class="text-white flex">
-                    <EditIcon />
+                   <EditIcon />
                   </button>
                 </router-link>
                 <button @click="confirmDelete(department)" class="text-white flex">
