@@ -166,7 +166,7 @@ onMounted(() => {
                 />
                 <span class="ml-2">{{ student.name }}</span>
               </td>
-              <td class="px-6 py-4">{{ student.nis }}</td>
+              <td class="px-6 py-4">{{ student.nis }} <span v-if="student.nisn"> / {{ student.nisn }}</span> </td>
               <td class="px-6 py-4">
                 {{ student.gender === 0 ? "Laki-laki" : "Perempuan" }}
               </td>

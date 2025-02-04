@@ -9,7 +9,7 @@ export const PicketService = {
     return Helper.getResult(response);
   },
   Pageninate: async (model) => {
-    let response = await axios.post(`${controller}/paginate`,model);
+    let response = await axios.post(`${controller}/paginate`, model);
     return Helper.getResult(response);
   },
 };

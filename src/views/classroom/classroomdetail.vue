@@ -159,7 +159,7 @@ const deleteData = async (student) => {
               }}</label>
           </div>
           <div class="flex">
-            <label class="labelTitle">Nama Kelas</label>
+            <label class="labelTitle">Nama Jurusan</label>
             <label for="className" class="labelValue">: {{ classroom.departmentName }}</label>
           </div>
           <div class="flex">
