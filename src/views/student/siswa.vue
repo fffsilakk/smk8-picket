@@ -123,9 +123,9 @@ onMounted(() => {
         <div
           class="my-2 flex sm:flex-row flex-col items-center sm:justify-between"
         >
-          <select v-model="data.paginate.pageSize" @change="changePageSize">
-            <option v-for="item in data.pageSizes" :value="item">
-              {{ item }}
+          <select v-model="data.paginate.pageSize" @change="changePageSize" class=" dark:bg-slate-800 dark:text-white">
+            <option class=" dark:bg-slate-600 text-white" v-for="item in data.pageSizes" :value="item">
+              <span class="dark:text-white">{{ item }}</span>
             </option>
           </select>
           <input
@@ -133,7 +133,7 @@ onMounted(() => {
             type="text"
             placeholder="Search..."
             @change="searchTextChange"
-            class="p-2 border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700"
+            class="p-2 border border-gray-200 rounded-lg dark:text-white dark:bg-gray-800 dark:border-gray-700"
           />
         </div>
         <table

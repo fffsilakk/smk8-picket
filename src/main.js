@@ -5,6 +5,7 @@ import "flowbite";
 import App from "./App.vue";
 const pinia = createPinia()
 
+
 import routes from "./routes";
 
 const app = createApp(App);

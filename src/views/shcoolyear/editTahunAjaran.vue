@@ -44,13 +44,12 @@ const updateSchoolYear = async () => {
 <template>
   <admin-page>
     <div class="grid grid-cols-2 gap-4">
-      <div>
-        <h2 class="text-2xl font-semibold mb-6">Edit Tahun Ajaran</h2>
-
+      <div class=" dark:bg-slate-700 p-5 rounded-md shadow-md">
+        <h2 class="text-2xl font-semibold mb-6 dark:text-white">Edit Tahun Ajaran</h2>
         <form @submit.prevent="updateSchoolYear">
           <!-- Input Tahun -->
           <div class="mb-5">
-            <label for="yearpicker" class="block mb-2 text-sm font-medium">Year</label>
+            <label for="yearpicker" class="block mb-2 text-sm font-medium dark:text-white">Year</label>
             <input v-model="data.form.year" id="yearpicker" type="number" min="1900" max="2100" step="1"
               class="bg-gray-50 border text-gray-900 rounded-lg focus:ring focus:border block w-full p-2.5"
               placeholder="Masukkan Tahun" required />
@@ -58,7 +57,7 @@ const updateSchoolYear = async () => {
 
           <!-- Input Semester -->
           <div class="mb-5">
-            <label for="semester" class="block text-sm font-medium">Semester</label>
+            <label for="semester" class="block text-sm font-medium dark:text-white">Semester</label>
             <input v-model="data.form.semester" id="semester" type="number" min="1" max="2"
               class="bg-gray-50 border text-gray-900 rounded-lg focus:ring focus:border block w-full p-2.5"
               placeholder="Masukkan Semester (1 atau 2)" required />
@@ -66,7 +65,7 @@ const updateSchoolYear = async () => {
 
           <!-- Status Aktif -->
           <div class="mb-5">
-            <label for="active" class="block mb-2 text-sm font-medium">Active</label>
+            <label for="active" class="block mb-2 text-sm font-medium dark:text-white">Active</label>
             <select v-model="data.form.actived" id="active"
               class="bg-gray-50 border text-gray-900 rounded-lg focus:ring focus:border block w-full p-2.5" required>
               <option :value="true">True</option>

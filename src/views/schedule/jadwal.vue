@@ -156,17 +156,16 @@ const deleteData = (schedule) => {
 
 <template>
   <AdminPage>
-    <div class="mt-12 pt-10 p-6 md:px-10 sm:px-6 px-4 md:ml-64 sm:ml-64 ml-20 flex flex-col">
+    <div class="">
       <h2
-        class="max-w-lg text-center mb-6 text-3xl font-bold leading-none tracking-tight text-gray-900 sm:text-4xl md:mx-auto">
+        class="max-w-lg text-center mb-6 text-3xl font-bold leading-none tracking-tight text-gray-900 dark:text-white sm:text-4xl md:mx-auto">
         Jadwal Picket
         <span v-if="data.tahunAjara > 0" class="relative inline-block">
           {{ data.tahunAjara }}
-          <div class="w-full h-3 -mt-3 bg-emerald-300"></div>
         </span>
       </h2>
       <div v-for="item in dayOfWeeks" :key="item.name" class="grid">
-        <div class="mb-10 grid grid-cols-1 shadow-lg rounded-lg p-5 dark:bg-neutral-900">
+        <div class="mb-10 grid grid-cols-1 shadow-lg rounded-lg p-5 bg-slate-100 dark:bg-gray-800">
           <div class="flex items-center gap-x-4 mb-3">
             <div
               class="inline-flex justify-center items-center w-[62px] h-[62px] rounded-full border-4 border-blue-50 bg-blue-100 dark:border-blue-900 dark:bg-blue-800">
@@ -228,6 +227,7 @@ const deleteData = (schedule) => {
                     </button>
                     <button @click="deleteData(schedule)"
                       class="transition-all duration-200 text-red-500 hover:text-red-700 rounded-lg">
+                      <DeleteIcon></DeleteIcon>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="w-5 h-5" fill="currentColor">
                         <path
                           d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
