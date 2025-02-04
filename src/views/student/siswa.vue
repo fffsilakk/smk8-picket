@@ -22,11 +22,10 @@ const data = reactive({
     page: 1,
     pageSize: 10,
     searchTerm: "",
-    sortOrder: "desc",
+    sortOrder: "asc",
     columnOrder: "date",
   },
 });
-
 
 const dataxx = reactive({
   students: [],
@@ -94,46 +93,59 @@ const confirmDelete = (student) => {
 };
 
 const changePageSize = (event) => {
-  paginateState.setPaginateResult({paginateResult:{data:[]}});
+  paginateState.setPaginateResult({ paginateResult: { data: [] } });
   data.paginate.page = 1;
   getData(data.paginate);
-
 };
-onMounted(()=>{
-  paginateState.setPaginateResult({paginateResult:{data:[]}});
-  getData(data.paginate)
+
+const searchTextChange = (event) => {
+  data.paginate.page = 1;
+  getData(data.paginate);
+};
+
+onMounted(() => {
+  paginateState.setPaginateResult({ paginateResult: { data: [] } });
+  getData(data.paginate);
 });
 </script>
 
 <template>
   <AdminPage>
-    <div >
-
+    <div>
       <div class="flex justify-between items-center">
         <h1 class="text-2xl font-semibold">Data Siswa</h1>
         <router-link :to="{ name: 'addSiswa' }">
           <AddIcon></AddIcon>
         </router-link>
-
       </div>
 
-
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-1">
-        <div class="my-2 flex sm:flex-row flex-col items-center sm:justify-between">
+        <div
+          class="my-2 flex sm:flex-row flex-col items-center sm:justify-between"
+        >
           <select v-model="data.paginate.pageSize" @change="changePageSize">
             <option v-for="item in data.pageSizes" :value="item">
               {{ item }}
             </option>
           </select>
-          <input v-model="data.paginate.searchTerm" type="text" placeholder="Search..." @change="getData(data.paginate)"
-            class="p-2 border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700" />
+          <input
+            v-model="data.paginate.searchTerm"
+            type="text"
+            placeholder="Search..."
+            @change="searchTextChange"
+            class="p-2 border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700"
+          />
         </div>
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table
+          class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+        >
+          <thead
+            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+          >
             <tr>
               <th class="px-6 py-3">NO</th>
               <th class="px-6 py-3">Nama</th>
-                <th class="px-6 py-3">Nis</th>
+              <th class="px-6 py-3">Nis</th>
               <th class="px-6 py-3">Kelamin</th>
               <th class="px-6 py-3">TTL</th>
               <th class="px-6 py-3">Email</th>
@@ -141,19 +153,31 @@ onMounted(()=>{
             </tr>
           </thead>
           <tbody>
-             <tr v-for="(student, index) in paginateState.paginateResult.data" :key="index"
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            <tr
+              v-for="(student, index) in paginateState.paginateResult.data"
+              :key="index"
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
               <td class="px-6 py-4">{{ index + 1 }}</td>
               <td class="flex justify-start items-center px-6 py-4">
-                <img class="w-8 h-8 rounded-full" :src="Helper.getStudentAvatar(student.photo)">
+                <img
+                  class="w-8 h-8 rounded-full"
+                  :src="Helper.getStudentAvatar(student.photo)"
+                />
                 <span class="ml-2">{{ student.name }}</span>
               </td>
               <td class="px-6 py-4">{{ student.nis }}</td>
               <td class="px-6 py-4">
                 {{ student.gender === 0 ? "Laki-laki" : "Perempuan" }}
               </td>
-              <td class="px-6 py-4">{{ student.placeOfBorn }}, {{ !student.dateOfBorn ? "" :
-                Helper.formatDate(student.dateOfBorn) }}</td>
+              <td class="px-6 py-4">
+                {{ student.placeOfBorn }},
+                {{
+                  !student.dateOfBorn
+                    ? ""
+                    : Helper.formatDate(student.dateOfBorn)
+                }}
+              </td>
 
               <td class="px-6 py-4">{{ student.email }}</td>
               <td class="px-6 py-4 flex gap-2">
@@ -167,7 +191,11 @@ onMounted(()=>{
             </tr>
           </tbody>
         </table>
-        <Pagination v-if="paginateState.paginateResult" :paginate="data.paginate" @onChangePage="getData"></Pagination>
+        <Pagination
+          v-if="paginateState.paginateResult"
+          :paginate="data.paginate"
+          @onChangePage="getData"
+        ></Pagination>
       </div>
     </div>
   </AdminPage>
