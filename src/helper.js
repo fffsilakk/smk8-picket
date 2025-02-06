@@ -1,6 +1,6 @@
 export const Helper = {
-  url: "https://picket.ocph23.tech",
-  urlApi: "https://picket.ocph23.tech/api/",
+  url: "http://192.168.1.22",
+  urlApi: "http://192.168.1.22/api/",
   getResult: (response) => {
     return response.status === 200
       ? { data: response.data, isSuccess: true }
