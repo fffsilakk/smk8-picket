@@ -64,14 +64,12 @@ onMounted(getData);
 <template>
   <AdminPage>
     <div>
-
       <div class="flex justify-between items-center">
         <h1 class="text-2xl font-semibold">Data Tahun Ajaran</h1>
         <router-link :to="{ name: 'addShoolyear' }">
           <AddIcon />
         </router-link>
       </div>
-
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-1">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

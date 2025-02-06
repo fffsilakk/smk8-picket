@@ -4,8 +4,47 @@
       <div class="alert alert-warning">
         {{ systemMessage }}
       </div>
-      <FwbButton color="red">test</FwbButton>
+
     </div>
+
+    <div class=" space-y-3  p-4 rounded-lg shadow-md">
+      <div class="flex">
+        <label class="labelTitle">Tanggal</label>
+        <label class="labelValue">: </label>
+      </div>
+      <div class="flex">
+        <label class="labelTitle">Cuaca</label>
+        <label class="labelValue">: </label>
+      </div>
+      <div class="flex">
+        <label class="labelTitle">Jumlah Guru</label>
+        <label class="labelValue">: </label>
+      </div>
+      <div class="flex">
+        <label class="labelTitle">Jumlah Siswa</label>
+        <label class="labelValue">: </label>
+      </div>
+      <div class="flex">
+        <label class="labelTitle">Picket Dibuka oleh</label>
+        <label class="labelValue">: </label>
+      </div>
+    </div>
+
+   <div class="mt-10">
+    <fwb-tabs v-model="activeTab" class="p-5">
+      <fwb-tab name="first" title="Catatan Kejadian">
+        Catatan Kejadian
+      </fwb-tab>
+      <fwb-tab name="second" title="Siswa Terlambat">
+        Siswa Terlambat
+      </fwb-tab>
+      <fwb-tab name="third" title="Siswa Pulang Lebih Cepat">
+        Siswa Pulang Lebih Cepat
+      </fwb-tab>
+   
+    </fwb-tabs>
+   </div>
+
   </AdminPage>
 </template>
 
@@ -15,8 +54,9 @@ import { PicketService } from "@/services/PicketService";
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 import { Helper } from "@/helper";
-import { FwbButton } from "flowbite-vue";
+import { FwbTab, FwbTabs } from 'flowbite-vue'
 
+const activeTab = ref('first')
 const systemMessage = ref("");
 
 onMounted(async () => {
@@ -34,5 +74,14 @@ onMounted(async () => {
   color: #721c24;
   border: 1px solid #f5c6cb;
   border-radius: 0.25rem;
+}
+
+.labelTitle {
+  margin-right: 10px;
+  width: 150px;
+}
+
+.labelValue {
+  font-weight: normal;
 }
 </style>

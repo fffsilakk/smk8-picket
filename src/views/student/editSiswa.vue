@@ -83,8 +83,12 @@ const changePhoto = async () => {
       <form @submit.prevent="updateStudent">
         <div class="grid gap-6 mb-6 md:grid-cols-2">
           <div>
-            <label for="number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nis</label>
+            <label for="number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIS</label>
             <input type="text" id="number" v-model="data.form.nis" class="input-field" required />
+          </div>
+          <div>
+            <label for="number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NISN</label>
+            <input type="text" id="number" v-model="data.form.nisn" class="input-field" required />
           </div>
 
           <div>
@@ -96,8 +100,8 @@ const changePhoto = async () => {
             <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis
               Kelamin</label>
             <select id="gender" v-model="data.form.gender" class="input-field" required>
-              <option value="0">Perempuan</option>
-              <option value="1">Laki-laki</option>
+              <option value="0">Laki-laki</option>
+              <option value="1">Perempuan</option>
             </select>
           </div>
 
@@ -115,7 +119,7 @@ const changePhoto = async () => {
 
           <div>
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-            <input type="email" id="email" v-model="data.form.email" class="input-field" required />
+            <input type="email" id="email" v-model="data.form.email" class="input-field" />
           </div>
 
           <div>
@@ -124,10 +128,7 @@ const changePhoto = async () => {
             <textarea id="description" v-model="data.form.description" class="input-field" rows="4"></textarea>
           </div>
 
-          <div>
-            <label for="userId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User ID</label>
-            <input type="text" id="userId" v-model="data.form.userId" class="input-field" required />
-          </div>
+          
         </div>
 
         <button type="submit" class="bg-slate-900 text-white py-2 px-4 rounded hover:bg-emerald-500">

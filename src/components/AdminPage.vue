@@ -7,7 +7,6 @@
             <div class="my-5 flex  justify-center ">
                <img src="/smk.png" class="h-12 me-4" alt="Smk Logo" />
             </div>
-
             <ul class="space-y-2 font-medium">
                <router-link :to="{ name: 'home' }">
                   <li>
@@ -161,14 +160,18 @@
                            </path>
                         </svg>
                      </button>
-                     <router-link :to="{ name: 'home' }">
-                        <span class="flex ms-2 md:me-24">
-                           <span
-                              class="self-center text-xl font-semibold sm:text-xl whitespace-nowrap text-black dark:text-white sm:inline hidden">
-                              APLIKASI PIKET
+                     <div>
+                        <router-link :to="{ name: 'home' }">
+                           <span class="flex ms-2 md:me-24">
+                              <span
+                                 class="self-center text-xl font-semibold sm:text-xl whitespace-nowrap text-black dark:text-white sm:inline hidden">
+                                 APLIKASI PIKET
+                              </span>
                            </span>
-                        </span>
-                     </router-link>
+                        </router-link>
+
+                        <ThemeDark></ThemeDark>
+                     </div>
                   </div>
 
                   <div class="flex items-center">
@@ -228,6 +231,7 @@ const route = useRoute();
 const isLoginPage = computed(() => route.path === "/login");
 
 import { useRouter } from "vue-router";
+import ThemeDark from "./ThemeDark.vue";
 const router = useRouter();
 const logout = () => {
    const confirmed = window.confirm("Apakah Anda yakin ingin Keluar?");
