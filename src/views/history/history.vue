@@ -4,7 +4,7 @@ import AdminPage from "@/components/AdminPage.vue";
 import { PicketService } from "../../services/PicketService";
 import { Helper } from "../../helper";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/20/solid";
-import EditIcon from "@/components/customeicons/EditIcon.vue";
+import DetailIcon from "@/components/customeicons/DetailIcon.vue";
 
 const data = reactive({
   pageSizes: [5, 10, 50, 100],
@@ -119,9 +119,9 @@ const goToPage = (page) => {
               <td class="px-6 py-4">{{ department.createdName }}ss</td>
               <td class="px-6 py-4">{{ department.createdName }}ss</td>
               <td class="w-10 px-6 py-4 flex gap-2">
-                <router-link :to="`/Jurusan/${department.id}/edit`">
+                <router-link :to="`/history/${department.id}`">
                   <button class="text-white flex">
-                    <EditIcon />
+                    <DetailIcon />
                   </button>
                 </router-link>
               </td>

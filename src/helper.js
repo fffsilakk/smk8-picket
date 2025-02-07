@@ -1,6 +1,6 @@
 export const Helper = {
-  url: "http://192.168.1.22",
-  urlApi: "http://192.168.1.22/api/",
+  url: "http://localhost:5003",
+  urlApi: "http://localhost:5003/api/",
   getResult: (response) => {
     return response.status === 200
       ? { data: response.data, isSuccess: true }
@@ -13,12 +13,11 @@ export const Helper = {
       case 1:
         return "Mendung";
       case 2:
-        return "Hujan";
+        return "Gerimis";
       case 3:
-        return "Apalah";
-
+        return "Hujan";
       default:
-        return "-";
+        return "Cerah";
     }
   },
 

@@ -8,8 +8,20 @@ export const PicketService = {
     let response = await axios.get(`${controller}`);
     return Helper.getResult(response);
   },
+
+  getById: async (id) => {
+    let response = await axios.get(`${controller}/${id}`);
+    return Helper.getResult(response);
+  },
   Pageninate: async (model) => {
     let response = await axios.post(`${controller}/paginate`, model);
     return Helper.getResult(response);
   },
+
+  openPicket: async (model) => {
+    let response = await axios.post(`${controller}`, {});
+    return Helper.getResult(response);
+
+  }
+
 };
