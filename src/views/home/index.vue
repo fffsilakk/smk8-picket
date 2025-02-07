@@ -8,7 +8,7 @@ let year = ref(new Date().getFullYear())
 
 <template>
   <AdminPage>
-    <div class="h-screen flex justify-center flex-col items-center">
+    <div class="h-full flex justify-center flex-col items-center">
       <img class="m-12" width="15%" src="../../../public/smk.png" alt="">
       <p class="text-lg dark:text-white">SELAMAT DATANG DI SMKN 8 TIK KOTA JAYAPURA</p>
       <p class="text-lg dark:text-white">KOTA JAYAPURA</p>

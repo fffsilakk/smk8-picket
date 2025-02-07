@@ -17,6 +17,11 @@ const routes = [
     name: "History",
     component: () => import("../views/history/history.vue"),
   },
+  {
+    path: "/History/:id",
+    name: "HistoryDetail",
+    component: () => import("../views/picket/picket.vue"),
+  },
 
   // routes tahun ajaran
   {
@@ -101,6 +106,7 @@ const routes = [
     name: "Picket",
     component: () => import("../views/picket/picket.vue"),
   },
+  
  
 
   // routes Classrom
