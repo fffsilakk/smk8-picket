@@ -5,29 +5,41 @@
         <div>{{ systemMessage }}</div>
       </div>
       <div class="flex justify-center">
-        <button @click="openPicket" class="w-1/2 btn-close text-white bg-orange-500 m-2 p-5 rounded-lg shadow-md"
-          aria-label="Close">Buka
-          Piket</button>
+        <button
+          @click="openPicket"
+          class="w-1/2 btn-close text-white bg-orange-500 m-2 p-5 rounded-lg shadow-md"
+          aria-label="Close"
+        >
+          Buka Piket
+        </button>
       </div>
     </div>
 
     <div v-if="data.picket">
-      <div class=" space-y-3  p-4 rounded-lg shadow-md">
+      <div class="space-y-3 p-4 rounded-lg shadow-md">
         <div class="flex">
-          <label class="labelTitle dark:text-white ">Tanggal</label>
-          <label class="labelValue dark:text-white">: {{ data.picket.date }} </label>
+          <label class="labelTitle dark:text-white">Tanggal</label>
+          <label class="labelValue dark:text-white"
+            >: {{ data.picket.date }}
+          </label>
         </div>
         <div class="flex">
           <label class="labelTitle dark:text-white">Cuaca</label>
-          <label class="labelValue dark:text-white">: {{ Helper.getWeartherString(data.picket.weather) }}</label>
+          <label class="labelValue dark:text-white"
+            >: {{ Helper.getWeartherString(data.picket.weather) }}</label
+          >
         </div>
         <div class="flex">
           <label class="labelTitle dark:text-white">Mulai Jam</label>
-          <label class="labelValue dark:text-white">: {{ data.picket.startAt }} </label>
+          <label class="labelValue dark:text-white"
+            >: {{ data.picket.startAt }}
+          </label>
         </div>
         <div class="flex">
           <label class="labelTitle dark:text-white">Berakhir Jam</label>
-          <label class="labelValue dark:text-white">: {{ data.picket.endAt }} </label>
+          <label class="labelValue dark:text-white"
+            >: {{ data.picket.endAt }}
+          </label>
         </div>
         <div class="flex">
           <label class="labelTitle dark:text-white">Jumlah Guru</label>
@@ -39,7 +51,9 @@
         </div>
         <div class="flex">
           <label class="labelTitle dark:text-white">Picket Dibuka oleh</label>
-          <label class="labelValue dark:text-white">: {{ data.picket.createdName }}</label>
+          <label class="labelValue dark:text-white"
+            >: {{ data.picket.createdName }}</label
+          >
         </div>
       </div>
 
@@ -54,12 +68,9 @@
           <fwb-tab name="third" title="Siswa Pulang Lebih Cepat">
             Siswa Pulang Lebih Cepat
           </fwb-tab>
-
         </fwb-tabs>
       </div>
     </div>
-
-
   </AdminPage>
 </template>
 
@@ -69,22 +80,26 @@ import { PicketService } from "@/services/PicketService";
 import { useRoute, useRouter } from "vue-router";
 import { ref, onMounted, reactive } from "vue";
 import { Helper } from "@/helper";
-import { FwbTab, FwbTabs } from 'flowbite-vue'
+import { FwbTab, FwbTabs } from "flowbite-vue";
+import { ToastService } from "../../services/ToastService";
 
-const activeTab = ref('first')
+const activeTab = ref("first");
 const systemMessage = ref("");
-const data = reactive({ picket: null })
+const data = reactive({ picket: null });
 
 const route = useRoute();
 var picketId = route.params.id;
 
 const openPicket = async () => {
   const response = await PicketService.openPicket();
-}
-
+  if(response.isSuccess){
+      data.picket = response.data;
+  }else{
+      ToastService.dangerToast(response.data.detail);
+  }
+};
 
 onMounted(async () => {
-
   var response = null;
   if (picketId) {
     response = await PicketService.getById(picketId);
@@ -92,7 +107,9 @@ onMounted(async () => {
     response = await PicketService.get();
   }
   if (!response.isSuccess) {
-    systemMessage.value = `Piket hari ini,  ${Helper.getIndonesiaDay(new Date().getDay())}, ${Helper.formatDate(new Date())} belum dibuka.`;
+    systemMessage.value = `Piket hari ini,  ${Helper.getIndonesiaDay(
+      new Date().getDay()
+    )}, ${Helper.formatDate(new Date())} belum dibuka.`;
   } else {
     data.picket = response.data;
   }
